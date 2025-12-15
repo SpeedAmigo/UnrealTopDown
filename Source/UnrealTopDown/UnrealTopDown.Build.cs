@@ -27,8 +27,6 @@ public class UnrealTopDown : ModuleRules
 
 		PublicIncludePaths.AddRange(new string[] {
 			"UnrealTopDown",
-			"UnrealTopDown/Variant_Strategy",
-			"UnrealTopDown/Variant_Strategy/UI",
 			"UnrealTopDown/Variant_TwinStick",
 			"UnrealTopDown/Variant_TwinStick/AI",
 			"UnrealTopDown/Variant_TwinStick/Gameplay",
