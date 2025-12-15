@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Variant_TwinStick/TwinStickGameMode.h"
-#include "TopDownGameMode.generated.h"
+#include "MyGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALTOPDOWN_API ATopDownGameMode : public ATwinStickGameMode
+class UNREALTOPDOWN_API AMyGameMode : public ATwinStickGameMode
 {
 	GENERATED_BODY()
 	
