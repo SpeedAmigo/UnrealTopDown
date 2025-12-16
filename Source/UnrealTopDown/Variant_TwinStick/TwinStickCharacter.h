@@ -156,7 +156,7 @@ protected:
 	void MouseAim(const FInputActionValue& Value);
 
 	/** Performs a dash */
-	void Dash(const FInputActionValue& Value);
+	virtual void Dash(const FInputActionValue& Value);
 
 	/** Shoots projectiles */
 	void Shoot(const FInputActionValue& Value);

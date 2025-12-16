@@ -18,7 +18,14 @@ private:
 protected:
 	APlayerTwinStickCharacter();
 	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaSeconds) override;
+
+	virtual void Dash(const FInputActionValue& Value) override;
 	
 public:
 	UPlayerAttributesComponent* GetPlayerAttributesComponent() const { return PlayerAttributesComponent; }
+
+private:
+	float DashCooldown;
 };

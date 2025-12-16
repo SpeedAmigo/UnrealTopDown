@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Variant_TwinStick/TwinStickGameMode.h"
+#include "GameFramework/GameMode.h"
 #include "MyGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALTOPDOWN_API AMyGameMode : public ATwinStickGameMode
+class UNREALTOPDOWN_API AMyGameMode : public AGameMode
 {
 	GENERATED_BODY()
 	
