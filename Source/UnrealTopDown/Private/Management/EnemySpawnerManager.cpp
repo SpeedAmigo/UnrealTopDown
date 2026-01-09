@@ -3,6 +3,8 @@
 
 #include "Management/EnemySpawnerManager.h"
 
+#include "Objects/EnemySpawner.h"
+
 // Sets default values
 AEnemySpawnerManager::AEnemySpawnerManager()
 {
@@ -15,7 +17,10 @@ AEnemySpawnerManager::AEnemySpawnerManager()
 void AEnemySpawnerManager::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	WaveNumber = 0;
+
+	StartSpawning = true;
 }
 
 // Called every frame
@@ -23,5 +28,46 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (StartSpawning)
+	{
+		StartWave();
+		StartSpawning = false;
+	}
+
+	if (!WaveStarted) return;
+
+	CurrentTimeBetweenSpawns -= DeltaTime;
+
+	if (CurrentTimeBetweenSpawns <= 0 && SpawnedEnemies < EnemiesToSpawn)
+	{
+		if (Spawners.Num() == 0) return;
+		
+		int32 Index = FMath::RandRange(0, Spawners.Num() - 1);
+		AEnemySpawner* PickedSpawner = Spawners[Index];
+
+		if (IsValid(PickedSpawner))
+		{
+			PickedSpawner->SpawnEnemy();
+		}
+		
+		SpawnedEnemies++;
+		CurrentTimeBetweenSpawns = TimeBetweenSpawns;
+	}
+}
+
+void AEnemySpawnerManager::StartWave()
+{
+	if (Spawners.Num() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Spawners not initialized"));
+		return;
+	}
+
+	WaveNumber++;
+	CurrentTimeBetweenSpawns = TimeBetweenSpawns;
+	SpawnedEnemies = 0;
+	
+	WaveStarted = true;
+	
 }
 

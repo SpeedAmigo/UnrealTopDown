@@ -25,3 +25,8 @@ void AEnemySpawner::Tick(float DeltaTime)
 
 }
 
+void AEnemySpawner::SpawnEnemy()
+{
+	UE_LOG(LogTemp, Warning, TEXT("EnemySpawned"));
+}
+
