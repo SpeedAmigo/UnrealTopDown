@@ -3,6 +3,9 @@
 
 #include "Objects/EnemySpawner.h"
 
+#include "Characters/Enemies/BaseEnemyCharacter.h"
+#include "Characters/Enemies/EnemyAIController.h"
+#include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
 
@@ -18,7 +21,6 @@ AEnemySpawner::AEnemySpawner()
 void AEnemySpawner::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 int AEnemySpawner::PickRandomEnemy()
@@ -46,7 +48,7 @@ void AEnemySpawner::SpawnEnemy()
 	FVector SpawnLocation = GetActorLocation() + FVector(0, 0, 50.f);
 	SpawnTransform.SetLocation(SpawnLocation);
 	
-	ACharacter* spawned = World->SpawnActor<ACharacter>(EnemyArray[PickRandomEnemy()], SpawnTransform);
+	ABaseEnemyCharacter* spawned = World->SpawnActor<ABaseEnemyCharacter>(EnemyArray[PickRandomEnemy()], SpawnTransform);
 	
 	UE_LOG(LogTemp, Warning, TEXT("EnemySpawned"));
 }

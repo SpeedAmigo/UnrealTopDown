@@ -51,4 +51,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	void StartWave();
+
+private:
+	void SetPlayerActor(APawn* PlayerActor);
 };

@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "EnemySpawner.generated.h"
 
+class ABaseEnemyCharacter;
+
 UCLASS()
 class UNREALTOPDOWN_API AEnemySpawner : public AActor
 {
@@ -13,7 +15,7 @@ class UNREALTOPDOWN_API AEnemySpawner : public AActor
 protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
-	TArray<TSubclassOf<ACharacter>> EnemyArray;
+	TArray<TSubclassOf<ABaseEnemyCharacter>> EnemyArray;
 	
 	
 public:	

@@ -6,6 +6,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/PawnState.h"
 #include "Characters/Enemies/BaseEnemyCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "Misc/LowLevelTestAdapter.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AIPerceptionTypes.h"
@@ -17,7 +18,6 @@ const FName AEnemyAIController::TargetActor(TEXT("TargetActor"));
 AEnemyAIController::AEnemyAIController()
 {
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
-	
 	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
 
 	SightConfig->SightRadius = 1000.f;
@@ -35,6 +35,11 @@ void AEnemyAIController::BeginPlay()
 	Super::BeginPlay();
 
 	EnemyPawn = Cast<ABaseEnemyCharacter>(GetPawn());
+
+	if (ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))
+	{
+		BlackboardComp->SetValueAsObject(TargetActor, Player);
+	}
 	
 	if (BehaviorTreeAsset)
 	{

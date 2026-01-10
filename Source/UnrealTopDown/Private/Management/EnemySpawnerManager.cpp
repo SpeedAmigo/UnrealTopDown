@@ -3,6 +3,9 @@
 
 #include "Management/EnemySpawnerManager.h"
 
+#include "Engine/World.h"
+#include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
 #include "Objects/EnemySpawner.h"
 
 // Sets default values
@@ -17,7 +20,7 @@ AEnemySpawnerManager::AEnemySpawnerManager()
 void AEnemySpawnerManager::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	WaveNumber = 0;
 
 	StartSpawning = true;
