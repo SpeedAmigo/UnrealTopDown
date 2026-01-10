@@ -6,16 +6,15 @@
 #include "Components/ActorComponent.h"
 #include "PlayerAttributesComponent.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALTOPDOWN_API UPlayerAttributesComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditDefaultsOnly, Category="Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Attributes")
 	float MaxHealth = 100.f;
-	UPROPERTY(EditDefaultsOnly, Category="Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Attributes")
 	float MaxEnergy = 100.f;
 
 	float Health;
