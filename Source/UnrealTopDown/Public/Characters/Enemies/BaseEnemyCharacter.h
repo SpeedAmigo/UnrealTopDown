@@ -14,10 +14,9 @@ UCLASS()
 class UNREALTOPDOWN_API ABaseEnemyCharacter : public ACharacter
 {
 	GENERATED_BODY()
-protected:
+public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category= "State")
 	PawnState PawnState;
-	
 
 public:
 	// Sets default values for this character's properties
@@ -28,4 +27,5 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
 };

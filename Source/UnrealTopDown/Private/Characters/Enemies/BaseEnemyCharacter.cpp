@@ -3,19 +3,24 @@
 
 #include "Characters/Enemies/BaseEnemyCharacter.h"
 
-#include "Components/CapsuleComponent.h"
-#include "Components/MeshComponent.h"
-#include "Components/StaticMeshComponent.h"
+#include "Characters/PawnState.h"
+#include "Characters/Enemies/EnemyAIController.h"
 
 // Sets default values
 ABaseEnemyCharacter::ABaseEnemyCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	AIControllerClass = AEnemyAIController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 // Called when the game starts or when spawned
 void ABaseEnemyCharacter::BeginPlay()
 {
+	Super::BeginPlay();
+
+	PawnState = PawnState::Moving;
 }
 
 // Called every frame

@@ -13,5 +13,8 @@ UCLASS()
 class UNREALTOPDOWN_API AEnemySkeleton : public ABaseEnemyCharacter
 {
 	GENERATED_BODY()
+
+public:
+	AEnemySkeleton();
 	
 };
