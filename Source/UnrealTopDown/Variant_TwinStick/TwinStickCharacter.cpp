@@ -92,8 +92,6 @@ void ATwinStickCharacter::Tick(float DeltaTime)
 			// save the aim angle
 			AimAngle = AimRot.Yaw;
 
-			
-
 			// update the yaw, reuse the pitch and roll
 			SetActorRotation(FRotator(OldRotation.Pitch, AimAngle, OldRotation.Roll));
 
