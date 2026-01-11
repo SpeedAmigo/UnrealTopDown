@@ -23,18 +23,17 @@ void AEnemySpawner::BeginPlay()
 	Super::BeginPlay();
 }
 
+// Called every frame
+void AEnemySpawner::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
 int AEnemySpawner::PickRandomEnemy()
 {
 	if (EnemyArray.Num() == 0) return false;
 
 	return FMath::RandRange(0, EnemyArray.Num() - 1);
-}
-
-// Called every frame
-void AEnemySpawner::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 void AEnemySpawner::SpawnEnemy()
