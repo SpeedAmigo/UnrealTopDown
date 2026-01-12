@@ -7,6 +7,7 @@
 #include "Interfaces/Combat.h"
 #include "BaseEnemyCharacter.generated.h"
 
+class UEnemyDrop;
 class UEnemyAttributes;
 enum class PawnState : uint8;
 class UStaticMeshComponent;
@@ -22,6 +23,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attributes")
 	UEnemyAttributes* Attributes;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "EnemyDrop")
+	UEnemyDrop* EnemyDrop;
 
 public:
 	// Sets default values for this character's properties
