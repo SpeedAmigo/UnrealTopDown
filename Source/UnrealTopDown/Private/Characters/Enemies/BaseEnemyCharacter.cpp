@@ -6,6 +6,7 @@
 #include "Characters/PawnState.h"
 #include "Characters/Enemies/EnemyAIController.h"
 #include "Characters/Enemies/EnemyAttributes.h"
+#include "Characters/Enemies/EnemyDrop.h"
 
 // Sets default values
 ABaseEnemyCharacter::ABaseEnemyCharacter()
@@ -16,6 +17,7 @@ ABaseEnemyCharacter::ABaseEnemyCharacter()
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
 	Attributes = CreateDefaultSubobject<UEnemyAttributes>(TEXT("Attributes"));
+	EnemyDrop = CreateDefaultSubobject<UEnemyDrop>(TEXT("EnemyDrop"));
 }
 
 // Called when the game starts or when spawned
@@ -28,16 +30,16 @@ void ABaseEnemyCharacter::BeginPlay()
 
 void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Amount: %f"), amount);
-	
 	float Health = Attributes->GetHealth();
-	UE_LOG(LogTemp, Warning, TEXT("Health: %f"), Health);
 	Health -= amount;
 	
-	//UE_LOG(LogTemp, Warning, TEXT("Health: %f"), Health);
-
 	if (Health <= 0)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Enemy Died!"))
+		if (EnemyDrop)
+		{
+			EnemyDrop->DropItem();
+		}
 		Destroy();
 	}
 	else
