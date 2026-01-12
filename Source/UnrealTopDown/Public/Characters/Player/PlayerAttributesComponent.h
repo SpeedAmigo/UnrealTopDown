@@ -17,6 +17,7 @@ class UNREALTOPDOWN_API UPlayerAttributesComponent : public UActorComponent
 public:
 	UPROPERTY()
 	FOnHealthChangedSignature OnHealthChanged;
+
 	UPROPERTY()
 	FOnStaminaChangedSignature OnStaminaChanged;
 

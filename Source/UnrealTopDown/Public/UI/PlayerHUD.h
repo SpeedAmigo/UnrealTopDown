@@ -30,9 +30,6 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ScoreText;
 
-private:
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
-
 public:
 	UFUNCTION()
 	void UpdateHealth(float Current, float Max);
@@ -42,8 +39,5 @@ public:
 
 	UFUNCTION()
 	void UpdateScore(int32 Score);
-
-	UFUNCTION()
-	void UpdateGameTime(float Time);
 
 };

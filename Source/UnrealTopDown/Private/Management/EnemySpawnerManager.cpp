@@ -3,6 +3,8 @@
 
 #include "Management/EnemySpawnerManager.h"
 
+#include "Characters/Player/MyPlayerController.h"
+#include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
@@ -20,7 +22,14 @@ AEnemySpawnerManager::AEnemySpawnerManager()
 void AEnemySpawnerManager::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	for (auto Spawner : Spawners)
+	{
+		Spawner->SetSpawnerManager(this);
+	}
+
+	SetPlayerActor();
+
 	WaveNumber = 0;
 	StartSpawning = true;
 }
@@ -45,8 +54,7 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 
 void AEnemySpawnerManager::Wave()
 {
-	if (SpawnedEnemies < EnemiesToSpawn)
-	{
+	if (SpawnedEnemies < EnemiesToSpawn){
 		if (Spawners.Num() == 0) return;
 
 		//pick random spawner and spawn enemy
@@ -61,16 +69,22 @@ void AEnemySpawnerManager::Wave()
 		SpawnedEnemies++;
 		CurrentTimeBetweenSpawns = TimeBetweenSpawns;
 	}
-	else
-	{
+	else{
 		EnemiesToSpawn += 1;
 		TimeBetweenSpawns -= 0.1f;
 		WaveStarted = false;
 
-		UE_LOG(LogTemp, Warning, TEXT("Wave ended. Enemies to spawn: %d, Time between spawns: %f"), EnemiesToSpawn, TimeBetweenSpawns);
+		//UE_LOG(LogTemp, Warning, TEXT("Wave ended. Enemies to spawn: %d, Time between spawns: %f"), EnemiesToSpawn, TimeBetweenSpawns);
 
 		StartWave();
 	}
+}
+
+void AEnemySpawnerManager::SetPlayerActor()
+{
+	Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	PlayerController = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	PlayerController->AssignSpawnManager(this);
 }
 
 void AEnemySpawnerManager::StartWave()

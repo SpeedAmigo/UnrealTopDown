@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "EnemySpawnerManager.generated.h"
 
+class APlayerTwinStickCharacter;
+class AMyPlayerController;
 class AEnemySpawner;
 
 UCLASS()
@@ -30,16 +32,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawners")
 	TArray<AEnemySpawner*> Spawners;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Settings")	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Settings")
 	bool WaveStarted = false;
 
 private:
 
 	float CurrentTimeBetweenSpawns;
 	int32 SpawnedEnemies;
-
 	bool StartSpawning;
 	
+	APawn* Player;
+	AMyPlayerController* PlayerController;
+
 public:	
 	// Sets default values for this actor's properties
 	AEnemySpawnerManager();
@@ -54,5 +58,5 @@ protected:
 	void Wave();
 
 private:
-	void SetPlayerActor(APawn* PlayerActor);
+	void SetPlayerActor();
 };
