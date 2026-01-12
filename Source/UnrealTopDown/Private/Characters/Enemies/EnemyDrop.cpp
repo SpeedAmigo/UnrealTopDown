@@ -26,24 +26,19 @@ TSubclassOf<AItem> UEnemyDrop::PickRandomItemToDrop()
 	return DropItems[PickedItemToDrop];
 }
 
-/*bool UEnemyDrop::DecideItemDrop()
+bool UEnemyDrop::DecideItemDrop()
 {
 	float Roll = FMath::RandRange(0.f, 100.f);
-	UE_LOG(LogTemp, Warning, TEXT("Roll = %f"), Roll);
-	
 	return Roll <= GlobalDropChance;
-}*/
+}
 
 void UEnemyDrop::DropItem()
 {
-	/*UE_LOG(LogTemp, Warning, TEXT("Before Drop"));
 	if (!DecideItemDrop())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Drop Aborted by Roll"));
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("After Roll Check"));*/
-
+	
 	TSubclassOf<AItem> Item = PickRandomItemToDrop();
 	if (!Item) return;
 
@@ -57,7 +52,5 @@ void UEnemyDrop::DropItem()
 	SpawnTransform.SetLocation(SpawnLocation);
 
 	World->SpawnActor<AItem>(Item, SpawnTransform);
-
-	UE_LOG(LogTemp, Warning, TEXT("After Drop"));
 }
 

@@ -29,5 +29,5 @@ public:
 	
 private:
 	TSubclassOf<AItem> PickRandomItemToDrop();
-	//bool DecideItemDrop();
+	bool DecideItemDrop();
 };
