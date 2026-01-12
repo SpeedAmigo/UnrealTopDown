@@ -18,6 +18,8 @@ private:
 	UPROPERTY(VisibleAnywhere, Category= "State")
 	PawnState PawnState;
 
+	float DashCooldown;
+
 protected:
 	APlayerTwinStickCharacter();
 	virtual void BeginPlay() override;
@@ -29,6 +31,4 @@ protected:
 public:
 	UPlayerAttributesComponent* GetPlayerAttributesComponent() const { return PlayerAttributesComponent; }
 
-private:
-	float DashCooldown;
 };

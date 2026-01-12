@@ -22,7 +22,6 @@ void AEnemySpawnerManager::BeginPlay()
 	Super::BeginPlay();
 	
 	WaveNumber = 0;
-
 	StartSpawning = true;
 }
 
@@ -31,20 +30,26 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//start game
 	if (StartSpawning)
 	{
 		StartWave();
-		StartSpawning = false;
 	}
 
 	if (!WaveStarted) return;
 
 	CurrentTimeBetweenSpawns -= DeltaTime;
+	if (CurrentTimeBetweenSpawns <= 0) Wave();
 
-	if (CurrentTimeBetweenSpawns <= 0 && SpawnedEnemies < EnemiesToSpawn)
+}
+
+void AEnemySpawnerManager::Wave()
+{
+	if (SpawnedEnemies < EnemiesToSpawn)
 	{
 		if (Spawners.Num() == 0) return;
-		
+
+		//pick random spawner and spawn enemy
 		int32 Index = FMath::RandRange(0, Spawners.Num() - 1);
 		AEnemySpawner* PickedSpawner = Spawners[Index];
 
@@ -52,14 +57,26 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 		{
 			PickedSpawner->SpawnEnemy();
 		}
-		
+
 		SpawnedEnemies++;
 		CurrentTimeBetweenSpawns = TimeBetweenSpawns;
+	}
+	else
+	{
+		EnemiesToSpawn += 1;
+		TimeBetweenSpawns -= 0.1f;
+		WaveStarted = false;
+
+		UE_LOG(LogTemp, Warning, TEXT("Wave ended. Enemies to spawn: %d, Time between spawns: %f"), EnemiesToSpawn, TimeBetweenSpawns);
+
+		StartWave();
 	}
 }
 
 void AEnemySpawnerManager::StartWave()
 {
+	StartSpawning = false;
+
 	if (Spawners.Num() == 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Spawners not initialized"));
@@ -73,4 +90,5 @@ void AEnemySpawnerManager::StartWave()
 	WaveStarted = true;
 	
 }
+
 
