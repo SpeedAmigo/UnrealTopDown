@@ -18,7 +18,7 @@ private:
 	UPROPERTY(VisibleAnywhere, Category= "State")
 	PawnState PawnState;
 
-	float DashCooldown;
+	float DashTimer;
 
 protected:
 	APlayerTwinStickCharacter();
@@ -27,6 +27,21 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void Dash(const FInputActionValue& Value) override;
+
+	virtual void Shoot(const FInputActionValue& Value) override;
+
+	virtual void AoEAttack(const FInputActionValue& Value) override;
+
+public:
+	UPROPERTY(EditDefaultsOnly, Category="Attributes|Energy")
+	float DashCooldown = 2.f;
+	UPROPERTY(EditDefaultsOnly, Category="Attributes|Energy")
+	float DashCost = 12.f;
+	UPROPERTY(EditDefaultsOnly, Category= "Attributes|Energy")
+	float ShootCost = 1.f;
+	UPROPERTY(EditDefaultsOnly, Category= "Attributes|Energy")
+	float AoECost = 50.f;
+
 	
 public:
 	UPlayerAttributesComponent* GetPlayerAttributesComponent() const { return PlayerAttributesComponent; }

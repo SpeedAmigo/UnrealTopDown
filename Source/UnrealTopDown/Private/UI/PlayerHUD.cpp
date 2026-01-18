@@ -11,7 +11,7 @@ void UPlayerHUD::UpdateHealth(float Current, float Max)
 	HealthBar->SetPercent(Current / Max);
 }
 
-void UPlayerHUD::UpdateStamina(float Current, float Max)
+void UPlayerHUD::UpdateEnergy(float Current, float Max)
 {
 	EnergyBar->SetPercent(Current / Max);
 }

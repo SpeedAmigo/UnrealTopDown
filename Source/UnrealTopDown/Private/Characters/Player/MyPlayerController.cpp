@@ -32,7 +32,7 @@ void AMyPlayerController::OnPossess(APawn* InPawn)
 		PlayerAttributesComponent = PlayerCharacter->GetPlayerAttributesComponent();
 
 		PlayerAttributesComponent->OnHealthChanged.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateHealth);
-		PlayerAttributesComponent->OnStaminaChanged.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateStamina);
+		PlayerAttributesComponent->OnEnergyChanged.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateEnergy);
 	}
 }
 

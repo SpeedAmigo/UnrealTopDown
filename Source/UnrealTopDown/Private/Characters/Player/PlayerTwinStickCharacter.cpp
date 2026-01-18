@@ -16,14 +16,33 @@ void APlayerTwinStickCharacter::BeginPlay()
 void APlayerTwinStickCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	DashCooldown = FMath::Max(0.f, DashCooldown - DeltaSeconds);
+	DashTimer = FMath::Max(0.f, DashTimer - DeltaSeconds);
 }
 
 void APlayerTwinStickCharacter::Dash(const FInputActionValue& Value)
 {
-	if (DashCooldown <= 0.f)
+	if (DashTimer <= 0.f && PlayerAttributesComponent->GetEnergy() >= DashCost)
 	{
 		Super::Dash(Value);
-		DashCooldown = 2.f;
+		DashTimer = DashCooldown;
+		PlayerAttributesComponent->SubtractEnergy(DashCost);
+	}
+}
+
+void APlayerTwinStickCharacter::Shoot(const FInputActionValue& Value)
+{
+	if (PlayerAttributesComponent->GetEnergy() >= ShootCost)
+	{
+		Super::Shoot(Value);
+		PlayerAttributesComponent->SubtractEnergy(ShootCost);
+	}
+}
+
+void APlayerTwinStickCharacter::AoEAttack(const FInputActionValue& Value)
+{
+	if (PlayerAttributesComponent->GetEnergy() >= AoECost)
+	{
+		Super::AoEAttack(Value);
+		PlayerAttributesComponent->SubtractEnergy(AoECost);
 	}
 }

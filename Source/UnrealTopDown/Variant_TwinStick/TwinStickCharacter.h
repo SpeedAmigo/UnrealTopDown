@@ -159,10 +159,10 @@ protected:
 	virtual void Dash(const FInputActionValue& Value);
 
 	/** Shoots projectiles */
-	void Shoot(const FInputActionValue& Value);
+	virtual void Shoot(const FInputActionValue& Value);
 
 	/** Performs an AoE Attack */
-	void AoEAttack(const FInputActionValue& Value);
+	virtual void AoEAttack(const FInputActionValue& Value);
 
 public:
 
