@@ -35,7 +35,7 @@ public:
 	void UpdateHealth(float Current, float Max);
 
 	UFUNCTION()
-	void UpdateStamina(float Current, float Max);
+	void UpdateEnergy(float Current, float Max);
 
 	UFUNCTION()
 	void UpdateScore(int32 Score);

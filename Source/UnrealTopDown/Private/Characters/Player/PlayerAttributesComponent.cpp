@@ -18,14 +18,23 @@ void UPlayerAttributesComponent::BeginPlay()
 	Health = MaxHealth;
 	Energy = MaxEnergy;
 
-	if (OnStaminaChanged.IsBound())
+	if (OnEnergyChanged.IsBound())
 	{
-		OnStaminaChanged.Broadcast(Energy, MaxEnergy);
+		OnEnergyChanged.Broadcast(Energy, MaxEnergy);
 	}
 	if (OnHealthChanged.IsBound())
 	{
 		OnHealthChanged.Broadcast(Health, MaxHealth);
 	}
+}
+
+void UPlayerAttributesComponent::TickComponent(float DeltaTime, enum ELevelTick TickType,
+	FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (Energy >= MaxEnergy) return;
+	AddEnergy(EnergyRegen * DeltaTime);
 }
 
 void UPlayerAttributesComponent::TakeDamage(float DamageAmount)
@@ -54,6 +63,40 @@ void UPlayerAttributesComponent::TakeDamage(float DamageAmount)
 	if (OnHealthChanged.IsBound())
 	{
 		OnHealthChanged.Broadcast(Health, MaxHealth);
+	}
+}
+
+void UPlayerAttributesComponent::Heal(float HealAmount)
+{
+	if (HealAmount <= 0.0f) return;
+
+	Health = FMath::Clamp(Health + HealAmount, 0.0f, MaxHealth);
+
+	if (OnHealthChanged.IsBound())
+	{
+		OnHealthChanged.Broadcast(Health, MaxHealth);
+	}
+}
+
+void UPlayerAttributesComponent::SubtractEnergy(float EnergyAmount)
+{
+	if (EnergyAmount <= 0.0f) return;
+
+	Energy = FMath::Clamp(Energy - EnergyAmount, 0.0f, MaxEnergy);
+	if (OnEnergyChanged.IsBound())
+	{
+		OnEnergyChanged.Broadcast(Energy, MaxEnergy);
+	}
+}
+
+void UPlayerAttributesComponent::AddEnergy(float EnergyAmount)
+{
+	if (EnergyAmount <= 0) return;
+
+	Energy = FMath::Clamp(Energy + EnergyAmount, 0.0f, MaxEnergy);
+	if (OnEnergyChanged.IsBound())
+	{
+		OnEnergyChanged.Broadcast(Energy, MaxEnergy);
 	}
 }
 
