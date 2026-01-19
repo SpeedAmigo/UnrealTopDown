@@ -3,3 +3,9 @@
 
 #include "Objects/StaminaPotion.h"
 
+void AStaminaPotion::PickUp_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Stamina Potion Picked Up!"));
+	
+	Super::PickUp_Implementation();
+}

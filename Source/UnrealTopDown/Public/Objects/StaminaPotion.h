@@ -13,5 +13,7 @@ UCLASS()
 class UNREALTOPDOWN_API AStaminaPotion : public AItem
 {
 	GENERATED_BODY()
-	
+
+protected:
+	virtual void PickUp_Implementation() override;
 };

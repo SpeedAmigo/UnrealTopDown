@@ -13,5 +13,8 @@ UCLASS()
 class UNREALTOPDOWN_API AHealPotion : public AItem
 {
 	GENERATED_BODY()
-	
+
+protected:
+
+	virtual void PickUp_Implementation() override;
 };
