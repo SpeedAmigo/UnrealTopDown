@@ -1,7 +1,10 @@
 #include "Characters/Player/PlayerTwinStickCharacter.h"
+
+#include "TwinStickProjectile.h"
 #include "Characters/Player/PlayerAttributesComponent.h"
-#include "Interfaces/Combat.h"
+#include "Engine/World.h"
 #include "Interfaces/Interactable.h"
+#include "Management/ArrowType.h"
 
 APlayerTwinStickCharacter::APlayerTwinStickCharacter()
 {
@@ -13,6 +16,9 @@ APlayerTwinStickCharacter::APlayerTwinStickCharacter()
 void APlayerTwinStickCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	ArrowType = ArrowType::SingleShot;
+	UE_LOG(LogTemp, Warning, TEXT("Arrow Type: %i"), ArrowType);
 }
 
 void APlayerTwinStickCharacter::Tick(float DeltaSeconds)
@@ -33,11 +39,22 @@ void APlayerTwinStickCharacter::Dash(const FInputActionValue& Value)
 
 void APlayerTwinStickCharacter::Shoot(const FInputActionValue& Value)
 {
-	if (PlayerAttributesComponent->GetEnergy() >= ShootCost)
+	if (PlayerAttributesComponent->GetEnergy() >= ShootCost && ArrowType == ArrowType::SingleShot)
 	{
-		Super::Shoot(Value);
+		DoShoot();
 		PlayerAttributesComponent->SubtractEnergy(ShootCost);
 	}
+}
+void APlayerTwinStickCharacter::DoShoot()
+{
+	// get the actor transform
+	FTransform ProjectileTransform = GetActorTransform();
+
+	// apply the projectile spawn offset
+	FVector ProjectileLocation = ProjectileTransform.GetLocation() + ProjectileTransform.GetRotation().RotateVector(FVector::ForwardVector * ProjectileOffset);
+	ProjectileTransform.SetLocation(ProjectileLocation);
+
+	ATwinStickProjectile* Projectile = GetWorld()->SpawnActor<ATwinStickProjectile>(ProjectileClass, ProjectileTransform);
 }
 
 void APlayerTwinStickCharacter::AoEAttack(const FInputActionValue& Value)
