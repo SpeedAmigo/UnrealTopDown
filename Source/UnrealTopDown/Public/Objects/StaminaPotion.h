@@ -13,7 +13,10 @@ UCLASS()
 class UNREALTOPDOWN_API AStaminaPotion : public AItem
 {
 	GENERATED_BODY()
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float EnergyPoints;
 
 protected:
-	virtual void PickUp_Implementation() override;
+	virtual void PickUp_Implementation(AActor* Actor) override;
 };

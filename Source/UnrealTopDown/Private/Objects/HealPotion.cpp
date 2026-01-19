@@ -3,9 +3,18 @@
 
 #include "Objects/HealPotion.h"
 
-void AHealPotion::PickUp_Implementation()
+#include "Characters/Player/PlayerAttributesComponent.h"
+
+void AHealPotion::PickUp_Implementation(AActor* Actor)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Heal Potion Picked Up!"))
-	
-	Super::PickUp_Implementation();
+	if (UPlayerAttributesComponent* PlayerAttr = Actor->FindComponentByClass<UPlayerAttributesComponent>())
+	{
+		PlayerAttr->Heal(HealPoints);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Actor has no PlayerAttributesComponent"));
+	}
+ 	
+	Super::PickUp_Implementation(Actor);
 }

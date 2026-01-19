@@ -24,7 +24,7 @@ void AItem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AItem::PickUp_Implementation()
+void AItem::PickUp_Implementation(AActor* Actor)
 {
 	Destroy();
 }

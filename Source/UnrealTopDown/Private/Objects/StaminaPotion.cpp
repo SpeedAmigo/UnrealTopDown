@@ -3,9 +3,20 @@
 
 #include "Objects/StaminaPotion.h"
 
-void AStaminaPotion::PickUp_Implementation()
+#include "Characters/Player/PlayerAttributesComponent.h"
+
+void AStaminaPotion::PickUp_Implementation(AActor* Actor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Stamina Potion Picked Up!"));
+
+	if (UPlayerAttributesComponent* PlayerAttr = Actor->FindComponentByClass<UPlayerAttributesComponent>())
+	{
+		PlayerAttr->AddEnergy(EnergyPoints);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Actor has no PlayerAttributesComponent"));
+	}
 	
-	Super::PickUp_Implementation();
+	Super::PickUp_Implementation(Actor);
 }

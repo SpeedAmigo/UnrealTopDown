@@ -24,5 +24,5 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void PickUp_Implementation() override;
+	virtual void PickUp_Implementation(AActor* Actor) override;
 };
