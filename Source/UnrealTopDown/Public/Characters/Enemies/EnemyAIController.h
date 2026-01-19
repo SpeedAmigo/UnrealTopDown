@@ -27,7 +27,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	bool InitializeBlackboard();
+	// bool InitializeBlackboard();
 
 	UPROPERTY()
 	ABaseEnemyCharacter* EnemyPawn;
@@ -45,7 +45,7 @@ protected:
 	static const FName CanSeePlayer;
 	static const FName TargetActor;
 
-	// Perception callback
+	/*// Perception callback
 	UFUNCTION()
-	void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+	void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);*/
 };

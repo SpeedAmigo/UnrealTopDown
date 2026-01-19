@@ -31,6 +31,8 @@ public:
 
 	void SetSpawnerManager(AEnemySpawnerManager* NewSpawnerManager);
 
+	void SpawnedEnemyDies();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

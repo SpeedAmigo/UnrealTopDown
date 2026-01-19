@@ -34,7 +34,7 @@ void AEnemyAIController::BeginPlay()
 
 	EnemyPawn = Cast<ABaseEnemyCharacter>(GetPawn());
 
-	if (ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))
+	/*if (ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))
 	{
 		BlackboardComp->SetValueAsObject(TargetActor, Player);
 	}
@@ -43,10 +43,10 @@ void AEnemyAIController::BeginPlay()
 	{
 		InitializeBlackboard();
 		RunBehaviorTree(BehaviorTreeAsset);
-	}
+	}*/
 }
 
-bool AEnemyAIController::InitializeBlackboard()
+/*bool AEnemyAIController::InitializeBlackboard()
 {
 	if (BehaviorTreeAsset && BehaviorTreeAsset->BlackboardAsset)
 	{
@@ -54,7 +54,7 @@ bool AEnemyAIController::InitializeBlackboard()
 		return true;
 	}
 	return false;
-}
+}*/
 
 /*void AEnemyAIController::GetHit()
 {
@@ -80,7 +80,7 @@ bool AEnemyAIController::InitializeBlackboard()
 	}
 }*/
 
-void AEnemyAIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
+/*void AEnemyAIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
 	if (!BlackboardComp) return;
 
@@ -109,4 +109,4 @@ void AEnemyAIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus St
 		
 		UE_LOG(LogTemp, Display, TEXT("Cannot see the player"));
 	}
-}
+}*/

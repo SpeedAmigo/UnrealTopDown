@@ -7,6 +7,7 @@
 #include "Characters/Enemies/EnemyAIController.h"
 #include "Characters/Enemies/EnemyAttributes.h"
 #include "Characters/Enemies/EnemyDrop.h"
+#include "Objects/EnemySpawner.h"
 
 // Sets default values
 ABaseEnemyCharacter::ABaseEnemyCharacter()
@@ -40,6 +41,7 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 		{
 			EnemyDrop->DropItem();
 		}
+		Spawner->SpawnedEnemyDies();
 		Destroy();
 	}
 	else

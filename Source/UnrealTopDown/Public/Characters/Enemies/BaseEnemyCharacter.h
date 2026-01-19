@@ -7,6 +7,7 @@
 #include "Interfaces/Combat.h"
 #include "BaseEnemyCharacter.generated.h"
 
+class AEnemySpawner;
 class UEnemyDrop;
 class UEnemyAttributes;
 enum class PawnState : uint8;
@@ -27,6 +28,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "EnemyDrop")
 	UEnemyDrop* EnemyDrop;
 
+protected:
+	AEnemySpawner* Spawner;
+
+	UAnimMontage* AttackMontage;
+
 public:
 	// Sets default values for this character's properties
 	ABaseEnemyCharacter();
@@ -34,6 +40,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void DealDamage(AActor* OtherActor);
+
+	void AssignSpawner(AEnemySpawner* NewSpawner) { Spawner = NewSpawner; }
 
 protected:
 	// Called when the game starts or when spawned

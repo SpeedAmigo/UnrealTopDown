@@ -18,6 +18,15 @@ AEnemySpawnerManager::AEnemySpawnerManager()
 
 }
 
+void AEnemySpawnerManager::AddTotalEnemiesKilled()
+{
+	TotalEnemiesKilled++;
+	if (OnScoreChanged.IsBound())
+	{
+		OnScoreChanged.Broadcast(TotalEnemiesKilled, WaveNumber);
+	}
+}
+
 // Called when the game starts or when spawned
 void AEnemySpawnerManager::BeginPlay()
 {
@@ -104,5 +113,7 @@ void AEnemySpawnerManager::StartWave()
 	WaveStarted = true;
 	
 }
+
+
 
 

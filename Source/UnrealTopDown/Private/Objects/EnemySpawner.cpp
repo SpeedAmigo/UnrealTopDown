@@ -8,6 +8,7 @@
 #include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
+#include "Management/EnemySpawnerManager.h"
 
 // Sets default values
 AEnemySpawner::AEnemySpawner()
@@ -48,6 +49,8 @@ void AEnemySpawner::SpawnEnemy()
 	SpawnTransform.SetLocation(SpawnLocation);
 	
 	ABaseEnemyCharacter* spawned = World->SpawnActor<ABaseEnemyCharacter>(EnemyArray[PickRandomEnemy()], SpawnTransform);
+
+	spawned->AssignSpawner(this);
 	
 	//UE_LOG(LogTemp, Warning, TEXT("EnemySpawned"));
 }
@@ -56,5 +59,10 @@ void AEnemySpawner::SetSpawnerManager(AEnemySpawnerManager* NewSpawnerManager)
 {
 	SpawnerManager = NewSpawnerManager;
 	UE_LOG(LogTemp, Warning, TEXT("Spawner Manager set"));
+}
+
+void AEnemySpawner::SpawnedEnemyDies()
+{
+	SpawnerManager->AddTotalEnemiesKilled();
 }
 
