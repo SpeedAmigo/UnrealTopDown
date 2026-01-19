@@ -6,6 +6,7 @@
 #include "Variant_TwinStick/TwinStickPlayerController.h"
 #include "MyPlayerController.generated.h"
 
+class AEnemySpawnerManager;
 class UPlayerHUD;
 class APlayerTwinStickCharacter;
 class UUserWidget;
@@ -20,13 +21,17 @@ protected:
 
 	UPlayerAttributesComponent* PlayerAttributesComponent;
 	APlayerTwinStickCharacter* PlayerCharacter;
+	AEnemySpawnerManager* SpawnerManager;
 
 private:
 	UPROPERTY(EditAnywhere, Category="UI")
 	UPlayerHUD* PlayerHUD;
 
+
 public:
 	AMyPlayerController();
+
+	void AssignSpawnManager(AEnemySpawnerManager* NewSpawnManager);
 
 	virtual void OnPossess(APawn* InPawn) override;
 

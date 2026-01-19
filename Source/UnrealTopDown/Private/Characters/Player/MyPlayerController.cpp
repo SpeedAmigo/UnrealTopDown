@@ -13,6 +13,11 @@ AMyPlayerController::AMyPlayerController()
 	bEnableTouchEvents = false;
 }
 
+void AMyPlayerController::AssignSpawnManager(AEnemySpawnerManager* NewSpawnerManager)
+{
+	SpawnerManager = NewSpawnerManager;
+}
+
 void AMyPlayerController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);

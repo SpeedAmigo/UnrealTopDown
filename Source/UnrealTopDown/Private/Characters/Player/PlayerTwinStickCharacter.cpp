@@ -1,5 +1,7 @@
 #include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Characters/Player/PlayerAttributesComponent.h"
+#include "Interfaces/Combat.h"
+#include "Interfaces/Interactable.h"
 
 APlayerTwinStickCharacter::APlayerTwinStickCharacter()
 {
@@ -25,5 +27,15 @@ void APlayerTwinStickCharacter::Dash(const FInputActionValue& Value)
 	{
 		Super::Dash(Value);
 		DashCooldown = 2.f;
+	}
+}
+
+void APlayerTwinStickCharacter::NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other,
+	class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal,
+	FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (Other->Implements<UInteractable>())
+	{
+		IInteractable::Execute_PickUp(Other);
 	}
 }

@@ -7,8 +7,6 @@
 #include "Characters/PawnState.h"
 #include "Characters/Enemies/BaseEnemyCharacter.h"
 #include "Kismet/GameplayStatics.h"
-#include "Misc/LowLevelTestAdapter.h"
-#include "Perception/AIPerceptionComponent.h"
 #include "Perception/AIPerceptionTypes.h"
 #include "Perception/AISenseConfig_Sight.h"
 
