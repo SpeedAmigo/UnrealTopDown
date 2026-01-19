@@ -13,5 +13,12 @@ UCLASS()
 class UNREALTOPDOWN_API AHealPotion : public AItem
 {
 	GENERATED_BODY()
-	
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float HealPoints;
+
+protected:
+
+	virtual void PickUp_Implementation(AActor* Actor) override;
 };

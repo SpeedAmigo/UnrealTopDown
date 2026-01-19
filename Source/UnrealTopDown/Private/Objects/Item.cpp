@@ -24,9 +24,8 @@ void AItem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AItem::PickUp_Implementation()
+void AItem::PickUp_Implementation(AActor* Actor)
 {
-	//IInteractable::PickUp_Implementation();
-	UE_LOG(LogTemp, Warning, TEXT("Item Picked Up!"));
+	Destroy();
 }
 
