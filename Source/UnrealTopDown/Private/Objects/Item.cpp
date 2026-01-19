@@ -22,6 +22,11 @@ void AItem::BeginPlay()
 void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+void AItem::PickUp_Implementation()
+{
+	//IInteractable::PickUp_Implementation();
+	UE_LOG(LogTemp, Warning, TEXT("Item Picked Up!"));
 }
 

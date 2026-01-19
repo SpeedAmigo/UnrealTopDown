@@ -27,6 +27,8 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void Dash(const FInputActionValue& Value) override;
+
+	void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
 	
 public:
 	UPlayerAttributesComponent* GetPlayerAttributesComponent() const { return PlayerAttributesComponent; }
