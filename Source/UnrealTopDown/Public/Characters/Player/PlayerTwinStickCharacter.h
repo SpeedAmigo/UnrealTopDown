@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Interfaces/Combat.h"
 #include "Variant_TwinStick/TwinStickCharacter.h"
 #include "PlayerTwinStickCharacter.generated.h"
 
@@ -8,7 +9,7 @@ enum class PawnState : uint8;
 class UPlayerAttributesComponent;
 
 UCLASS()
-class UNREALTOPDOWN_API APlayerTwinStickCharacter : public ATwinStickCharacter
+class UNREALTOPDOWN_API APlayerTwinStickCharacter : public ATwinStickCharacter, public ICombat
 {
 	GENERATED_BODY()
 
@@ -31,6 +32,10 @@ protected:
 	virtual void Shoot(const FInputActionValue& Value) override;
 
 	virtual void AoEAttack(const FInputActionValue& Value) override;
+
+	virtual void GetDamage_Implementation(float amount) override;
+
+	void Die();
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category="Attributes|Energy")

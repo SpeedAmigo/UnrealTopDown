@@ -49,9 +49,26 @@ void APlayerTwinStickCharacter::AoEAttack(const FInputActionValue& Value)
 	}
 }
 
+void APlayerTwinStickCharacter::GetDamage_Implementation(float amount)
+{
+	if (PlayerAttributesComponent->GetHealth() - amount <= 0.f)
+	{
+		Die();
+	}
+	else
+	{
+		PlayerAttributesComponent->TakeDamage(amount);
+	}
+}
+
+void APlayerTwinStickCharacter::Die()
+{
+	UE_LOG(LogTemp, Warning, TEXT("You Died!"));
+}
+
 void APlayerTwinStickCharacter::NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other,
-	class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal,
-	FVector NormalImpulse, const FHitResult& Hit)
+                                          class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal,
+                                          FVector NormalImpulse, const FHitResult& Hit)
 {
 	if (Other->Implements<UInteractable>())
 	{

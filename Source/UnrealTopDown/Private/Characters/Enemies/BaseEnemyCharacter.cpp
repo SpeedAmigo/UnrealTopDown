@@ -53,3 +53,11 @@ void ABaseEnemyCharacter::Tick(float DeltaTime)
 {
 }
 
+void ABaseEnemyCharacter::DealDamage(AActor* OtherActor)
+{
+	if (OtherActor->Implements<UCombat>())
+	{
+		Execute_GetDamage(OtherActor, Attributes->Damage);
+	}
+}
+

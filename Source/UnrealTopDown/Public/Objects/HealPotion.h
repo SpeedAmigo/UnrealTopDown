@@ -19,6 +19,5 @@ protected:
 	float HealPoints;
 
 protected:
-
 	virtual void PickUp_Implementation(AActor* Actor) override;
 };
