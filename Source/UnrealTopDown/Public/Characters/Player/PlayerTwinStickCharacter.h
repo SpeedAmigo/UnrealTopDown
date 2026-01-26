@@ -2,9 +2,12 @@
 
 #include "CoreMinimal.h"
 #include "Interfaces/Combat.h"
+#include "Management/ArrowSpawnGroup.h"
 #include "Variant_TwinStick/TwinStickCharacter.h"
 #include "PlayerTwinStickCharacter.generated.h"
 
+struct FArrowSpawnGroup;
+enum class ArrowType : uint8;
 enum class PawnState : uint8;
 class UPlayerAttributesComponent;
 
@@ -13,12 +16,20 @@ class UNREALTOPDOWN_API APlayerTwinStickCharacter : public ATwinStickCharacter, 
 {
 	GENERATED_BODY()
 
+public:
+	UPROPERTY(EditAnywhere, Category = "Arrow")
+	ArrowType ArrowType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ArrowSpawnGroup")
+	TArray<FArrowSpawnGroup> ArrowSpawnGroup;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPlayerAttributesComponent* PlayerAttributesComponent;
 	UPROPERTY(VisibleAnywhere, Category= "State")
 	PawnState PawnState;
 
+	
 	float DashTimer;
 
 protected:
@@ -35,6 +46,8 @@ protected:
 
 	virtual void GetDamage_Implementation(float amount) override;
 
+	virtual void DoShoot(FArrowSpawnGroup ArrowData);
+	
 	void Die();
 
 public:
