@@ -10,6 +10,7 @@ struct FArrowTransformStruct
 {
 	GENERATED_BODY()
 
+	public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector PositionOffset;
 

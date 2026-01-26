@@ -39,22 +39,49 @@ void APlayerTwinStickCharacter::Dash(const FInputActionValue& Value)
 
 void APlayerTwinStickCharacter::Shoot(const FInputActionValue& Value)
 {
-	if (PlayerAttributesComponent->GetEnergy() >= ShootCost && ArrowType == ArrowType::SingleShot)
+	if (PlayerAttributesComponent->GetEnergy() < ShootCost) return;
+
+	switch (ArrowType)
 	{
-		DoShoot();
-		PlayerAttributesComponent->SubtractEnergy(ShootCost);
+		case ArrowType::SingleShot:
+			DoShoot(ArrowSpawnGroup[0]);
+			PlayerAttributesComponent->SubtractEnergy(ShootCost);
+		break;
+		case ArrowType::DoubleShot:
+			DoShoot(ArrowSpawnGroup[1]);
+			PlayerAttributesComponent->SubtractEnergy(ShootCost);
+		break;
+		case ArrowType::TripleShot:
+			DoShoot(ArrowSpawnGroup[2]);
+			PlayerAttributesComponent->SubtractEnergy(ShootCost);
+		break;
 	}
 }
-void APlayerTwinStickCharacter::DoShoot()
+void APlayerTwinStickCharacter::DoShoot(FArrowSpawnGroup ArrowData)
 {
 	// get the actor transform
 	FTransform ProjectileTransform = GetActorTransform();
+	
+	for (int i = 0; i < ArrowData.SpawnedActors.Num(); i++)
+	{
+		FArrowTransformStruct ArrowTransform = ArrowData.SpawnedActors[i];
+		
+		// Location offset
+		FVector ProjectileLocation =
+			ProjectileTransform.GetLocation() +
+			ProjectileTransform.GetRotation().RotateVector(ArrowTransform.PositionOffset);
+		
+		// Rotation offset
+		FQuat ProjectileRotation =
+			ProjectileTransform.GetRotation() *
+			ArrowTransform.LocalRotationOffset.Quaternion();
 
-	// apply the projectile spawn offset
-	FVector ProjectileLocation = ProjectileTransform.GetLocation() + ProjectileTransform.GetRotation().RotateVector(FVector::ForwardVector * ProjectileOffset);
-	ProjectileTransform.SetLocation(ProjectileLocation);
+		FTransform SpawnTransform;
+		SpawnTransform.SetLocation(ProjectileLocation);
+		SpawnTransform.SetRotation(ProjectileRotation);
 
-	ATwinStickProjectile* Projectile = GetWorld()->SpawnActor<ATwinStickProjectile>(ProjectileClass, ProjectileTransform);
+		GetWorld()->SpawnActor<ATwinStickProjectile>(ProjectileClass, SpawnTransform);
+	}
 }
 
 void APlayerTwinStickCharacter::AoEAttack(const FInputActionValue& Value)

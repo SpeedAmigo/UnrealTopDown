@@ -25,7 +25,7 @@ private:
 	UPlayerAttributesComponent* PlayerAttributesComponent;
 	UPROPERTY(VisibleAnywhere, Category= "State")
 	PawnState PawnState;
-	UPROPERTY(VisibleAnywhere, Category = "Arrow")
+	UPROPERTY(EditAnywhere, Category = "Arrow")
 	ArrowType ArrowType;
 	
 	float DashTimer;
@@ -44,7 +44,7 @@ protected:
 
 	virtual void GetDamage_Implementation(float amount) override;
 
-	virtual void DoShoot();
+	virtual void DoShoot(FArrowSpawnGroup ArrowData);
 	
 	void Die();
 
