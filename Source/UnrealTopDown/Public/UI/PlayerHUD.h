@@ -38,6 +38,6 @@ public:
 	void UpdateEnergy(float Current, float Max);
 
 	UFUNCTION()
-	void UpdateScore(int32 Score);
+	void UpdateScore(int32 Score, int Wave);
 
 };

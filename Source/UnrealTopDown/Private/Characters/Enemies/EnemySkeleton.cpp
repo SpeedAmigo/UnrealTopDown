@@ -3,8 +3,6 @@
 
 #include "Characters/Enemies/EnemySkeleton.h"
 
-#include "Characters/Enemies/EnemyAIController.h"
-
 AEnemySkeleton::AEnemySkeleton()
 {
 }

@@ -5,6 +5,7 @@
 
 #include "Characters/Player/PlayerAttributesComponent.h"
 #include "Characters/Player/PlayerTwinStickCharacter.h"
+#include "Management/EnemySpawnerManager.h"
 #include "UI/PlayerHUD.h"
 
 
@@ -16,6 +17,7 @@ AMyPlayerController::AMyPlayerController()
 void AMyPlayerController::AssignSpawnManager(AEnemySpawnerManager* NewSpawnerManager)
 {
 	SpawnerManager = NewSpawnerManager;
+	SpawnerManager->OnScoreChanged.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateScore);
 }
 
 void AMyPlayerController::OnPossess(APawn* InPawn)

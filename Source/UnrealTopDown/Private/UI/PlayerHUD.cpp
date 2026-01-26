@@ -16,8 +16,7 @@ void UPlayerHUD::UpdateEnergy(float Current, float Max)
 	EnergyBar->SetPercent(Current / Max);
 }
 
-void UPlayerHUD::UpdateScore(int32 Score)
+void UPlayerHUD::UpdateScore(int32 Score, int Wave)
 {
-    ScoreText->SetText(FText::AsNumber(Score));
+	ScoreText->SetText(FText::FromString(FString::Printf(TEXT("Score: %d\nWave: %d"), Score, Wave)));
 }
-
