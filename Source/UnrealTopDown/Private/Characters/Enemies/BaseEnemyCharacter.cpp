@@ -63,6 +63,10 @@ void ABaseEnemyCharacter::Tick(float DeltaTime)
 	if (AttackTimer > 0.f || !PlayerCharacter) return;
 	if ((PlayerCharacter->GetActorLocation() - GetActorLocation()).Size() < 100.0f)
 	{
+		if (AttackMontage)
+		{
+			PlayAnimMontage(AttackMontage);
+		}
 		DealDamage(PlayerCharacter);
 		AttackTimer = AttackCooldown;
 		UE_LOG(LogTemp, Display, TEXT("Enemy attacked player"));
