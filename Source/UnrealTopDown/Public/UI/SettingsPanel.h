@@ -13,8 +13,4 @@ UCLASS()
 class UNREALTOPDOWN_API USettingsPanel : public UUserWidget
 {
 	GENERATED_BODY()
-
-protected:
-
-	virtual void NativeOnInitialized() override;
 };
