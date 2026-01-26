@@ -7,6 +7,7 @@
 #include "Interfaces/Combat.h"
 #include "BaseEnemyCharacter.generated.h"
 
+class APlayerTwinStickCharacter;
 class AEnemySpawner;
 class UEnemyDrop;
 class UEnemyAttributes;
@@ -29,9 +30,18 @@ public:
 	UEnemyDrop* EnemyDrop;
 
 protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Combat")
+	float AttackCooldown = 2.f;
+
 	AEnemySpawner* Spawner;
 
+	UPROPERTY(EditDefaultsOnly, Category="Animation")
 	UAnimMontage* AttackMontage;
+
+private:
+	APlayerTwinStickCharacter* PlayerCharacter;
+
+	float AttackTimer;
 
 public:
 	// Sets default values for this character's properties

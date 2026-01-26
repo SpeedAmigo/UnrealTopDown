@@ -7,6 +7,8 @@
 #include "Characters/Enemies/EnemyAIController.h"
 #include "Characters/Enemies/EnemyAttributes.h"
 #include "Characters/Enemies/EnemyDrop.h"
+#include "Characters/Player/PlayerTwinStickCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "Objects/EnemySpawner.h"
 
 // Sets default values
@@ -27,6 +29,8 @@ void ABaseEnemyCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	PawnState = PawnState::Moving;
+
+	PlayerCharacter = Cast<APlayerTwinStickCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
 void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
@@ -53,6 +57,16 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 // Called every frame
 void ABaseEnemyCharacter::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
+	AttackTimer -= DeltaTime;
+
+	if (AttackTimer > 0.f || !PlayerCharacter) return;
+	if ((PlayerCharacter->GetActorLocation() - GetActorLocation()).Size() < 100.0f)
+	{
+		DealDamage(PlayerCharacter);
+		AttackTimer = AttackCooldown;
+		UE_LOG(LogTemp, Display, TEXT("Enemy attacked player"));
+	}
 }
 
 void ABaseEnemyCharacter::DealDamage(AActor* OtherActor)
