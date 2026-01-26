@@ -17,6 +17,9 @@ class UNREALTOPDOWN_API APlayerTwinStickCharacter : public ATwinStickCharacter, 
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(EditAnywhere, Category = "Arrow")
+	ArrowType ArrowType;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ArrowSpawnGroup")
 	TArray<FArrowSpawnGroup> ArrowSpawnGroup;
 
@@ -25,8 +28,7 @@ private:
 	UPlayerAttributesComponent* PlayerAttributesComponent;
 	UPROPERTY(VisibleAnywhere, Category= "State")
 	PawnState PawnState;
-	UPROPERTY(EditAnywhere, Category = "Arrow")
-	ArrowType ArrowType;
+
 	
 	float DashTimer;
 
