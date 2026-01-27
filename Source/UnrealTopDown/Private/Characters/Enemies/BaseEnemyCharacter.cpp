@@ -2,6 +2,7 @@
 
 
 #include "Characters/Enemies/BaseEnemyCharacter.h"
+#include "Characters/Enemies/BaseEnemyCharacter.h"
 
 #include "Characters/PawnState.h"
 #include "Characters/Enemies/EnemyAIController.h"
@@ -10,6 +11,7 @@
 #include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Objects/EnemySpawner.h"
+#include "NiagaraComponent.h"
 
 // Sets default values
 ABaseEnemyCharacter::ABaseEnemyCharacter()
@@ -21,6 +23,11 @@ ABaseEnemyCharacter::ABaseEnemyCharacter()
 
 	Attributes = CreateDefaultSubobject<UEnemyAttributes>(TEXT("Attributes"));
 	EnemyDrop = CreateDefaultSubobject<UEnemyDrop>(TEXT("EnemyDrop"));
+
+	NiagaraComp = CreateDefaultSubobject<UNiagaraComponent>(TEXT("NiagaraVFX"));
+	NiagaraComp->SetupAttachment(RootComponent);
+
+	NiagaraComp->SetAutoActivate(true);
 }
 
 // Called when the game starts or when spawned
@@ -46,6 +53,14 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 			EnemyDrop->DropItem();
 		}
 		Spawner->SpawnedEnemyDies();
+
+		if (NiagaraComp)
+		{
+			NiagaraComp->Activate(true);
+			NiagaraComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+			NiagaraComp->SetAutoDestroy(true);
+		}
+		
 		Destroy();
 	}
 	else

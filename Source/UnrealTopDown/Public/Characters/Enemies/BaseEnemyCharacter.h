@@ -7,6 +7,7 @@
 #include "Interfaces/Combat.h"
 #include "BaseEnemyCharacter.generated.h"
 
+class UNiagaraComponent;
 class APlayerTwinStickCharacter;
 class AEnemySpawner;
 class UEnemyDrop;
@@ -28,6 +29,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "EnemyDrop")
 	UEnemyDrop* EnemyDrop;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "VFX")
+	UNiagaraComponent* NiagaraComp;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Combat")
