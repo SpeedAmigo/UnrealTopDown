@@ -60,6 +60,11 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 			NiagaraComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 			NiagaraComp->SetAutoDestroy(true);
 		}
+
+		if (DieSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, DieSound, GetActorLocation());
+		}
 		
 		Destroy();
 	}

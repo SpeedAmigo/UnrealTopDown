@@ -26,9 +26,12 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPlayerAttributesComponent* PlayerAttributesComponent;
+	
 	UPROPERTY(VisibleAnywhere, Category= "State")
 	PawnState PawnState;
 
+	UPROPERTY(EditAnywhere, Category = "SFX")
+	USoundBase* ArrowRelease;
 	
 	float DashTimer;
 

@@ -4,6 +4,7 @@
 #include "Characters/Player/PlayerAttributesComponent.h"
 #include "Engine/World.h"
 #include "Interfaces/Interactable.h"
+#include "Kismet/GameplayStatics.h"
 #include "Management/ArrowType.h"
 
 APlayerTwinStickCharacter::APlayerTwinStickCharacter()
@@ -81,6 +82,11 @@ void APlayerTwinStickCharacter::DoShoot(FArrowSpawnGroup ArrowData)
 		SpawnTransform.SetRotation(ProjectileRotation);
 
 		GetWorld()->SpawnActor<ATwinStickProjectile>(ProjectileClass, SpawnTransform);
+
+		if (ArrowRelease)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, ArrowRelease, ProjectileLocation);
+		}
 	}
 }
 
