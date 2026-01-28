@@ -2,7 +2,6 @@
 
 
 #include "Characters/Enemies/BaseEnemyCharacter.h"
-#include "Characters/Enemies/BaseEnemyCharacter.h"
 
 #include "Characters/PawnState.h"
 #include "Characters/Enemies/EnemyAIController.h"
@@ -11,7 +10,8 @@
 #include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Objects/EnemySpawner.h"
-#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
+#include "Engine/World.h"
 
 // Sets default values
 ABaseEnemyCharacter::ABaseEnemyCharacter()
@@ -23,11 +23,6 @@ ABaseEnemyCharacter::ABaseEnemyCharacter()
 
 	Attributes = CreateDefaultSubobject<UEnemyAttributes>(TEXT("Attributes"));
 	EnemyDrop = CreateDefaultSubobject<UEnemyDrop>(TEXT("EnemyDrop"));
-
-	NiagaraComp = CreateDefaultSubobject<UNiagaraComponent>(TEXT("NiagaraVFX"));
-	NiagaraComp->SetupAttachment(RootComponent);
-
-	NiagaraComp->SetAutoActivate(true);
 }
 
 // Called when the game starts or when spawned
@@ -38,6 +33,13 @@ void ABaseEnemyCharacter::BeginPlay()
 	PawnState = PawnState::Moving;
 
 	PlayerCharacter = Cast<APlayerTwinStickCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+	GetWorld(),
+	SpawnAndDeathVFX,
+	GetActorLocation(),
+	GetActorRotation()
+	);
 }
 
 void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
@@ -54,13 +56,13 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 		}
 		Spawner->SpawnedEnemyDies();
 
-		if (NiagaraComp)
-		{
-			NiagaraComp->Activate(true);
-			NiagaraComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-			NiagaraComp->SetAutoDestroy(true);
-		}
-
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+			GetWorld(),
+			SpawnAndDeathVFX,
+			GetActorLocation(),
+			GetActorRotation()
+			);
+		
 		if (DieSound)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, DieSound, GetActorLocation());
