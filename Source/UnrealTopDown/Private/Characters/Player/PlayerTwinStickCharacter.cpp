@@ -90,15 +90,6 @@ void APlayerTwinStickCharacter::DoShoot(FArrowSpawnGroup ArrowData)
 	}
 }
 
-void APlayerTwinStickCharacter::AoEAttack(const FInputActionValue& Value)
-{
-	if (PlayerAttributesComponent->GetEnergy() >= AoECost)
-	{
-		Super::AoEAttack(Value);
-		PlayerAttributesComponent->SubtractEnergy(AoECost);
-	}
-}
-
 void APlayerTwinStickCharacter::GetDamage_Implementation(float amount)
 {
 	if (PlayerAttributesComponent->GetHealth() - amount <= 0.f)

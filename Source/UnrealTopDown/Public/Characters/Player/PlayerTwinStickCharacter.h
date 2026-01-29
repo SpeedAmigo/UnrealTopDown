@@ -40,6 +40,7 @@ private:
 
 protected:
 	APlayerTwinStickCharacter();
+	
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaSeconds) override;
@@ -47,9 +48,7 @@ protected:
 	virtual void Dash(const FInputActionValue& Value) override;
 
 	virtual void Shoot(const FInputActionValue& Value) override;
-
-	virtual void AoEAttack(const FInputActionValue& Value) override;
-
+	
 	virtual void GetDamage_Implementation(float amount) override;
 
 	virtual void DoShoot(FArrowSpawnGroup ArrowData);
