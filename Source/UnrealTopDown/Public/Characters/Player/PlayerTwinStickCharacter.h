@@ -33,6 +33,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "SFX")
 	USoundBase* ArrowRelease;
 	
+	UPROPERTY(EditAnywhere, Category = "SFX")
+	USoundBase* PickupSound;
+	
 	float DashTimer;
 
 protected:

@@ -89,6 +89,12 @@ void ABaseEnemyCharacter::Tick(float DeltaTime)
 		{
 			PlayAnimMontage(AttackMontage);
 		}
+
+		if (AttackSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, AttackSound, GetActorLocation());
+		}
+		
 		DealDamage(PlayerCharacter);
 		AttackTimer = AttackCooldown;
 		UE_LOG(LogTemp, Display, TEXT("Enemy attacked player"));

@@ -123,5 +123,9 @@ void APlayerTwinStickCharacter::NotifyHit(class UPrimitiveComponent* MyComp, AAc
 	if (Other->Implements<UInteractable>())
 	{
 		IInteractable::Execute_PickUp(Other, this);
+		if (PickupSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, PickupSound, GetActorLocation());
+		}
 	}
 }
