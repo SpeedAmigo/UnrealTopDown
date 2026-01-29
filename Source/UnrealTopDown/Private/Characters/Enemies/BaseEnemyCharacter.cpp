@@ -10,6 +10,8 @@
 #include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Objects/EnemySpawner.h"
+#include "NiagaraFunctionLibrary.h"
+#include "Engine/World.h"
 
 // Sets default values
 ABaseEnemyCharacter::ABaseEnemyCharacter()
@@ -31,6 +33,13 @@ void ABaseEnemyCharacter::BeginPlay()
 	PawnState = PawnState::Moving;
 
 	PlayerCharacter = Cast<APlayerTwinStickCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+	GetWorld(),
+	SpawnAndDeathVFX,
+	GetActorLocation(),
+	GetActorRotation()
+	);
 }
 
 void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
@@ -46,6 +55,19 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 			EnemyDrop->DropItem();
 		}
 		Spawner->SpawnedEnemyDies();
+
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+			GetWorld(),
+			SpawnAndDeathVFX,
+			GetActorLocation(),
+			GetActorRotation()
+			);
+		
+		if (DieSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, DieSound, GetActorLocation());
+		}
+		
 		Destroy();
 	}
 	else
@@ -67,6 +89,12 @@ void ABaseEnemyCharacter::Tick(float DeltaTime)
 		{
 			PlayAnimMontage(AttackMontage);
 		}
+
+		if (AttackSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, AttackSound, GetActorLocation());
+		}
+		
 		DealDamage(PlayerCharacter);
 		AttackTimer = AttackCooldown;
 		UE_LOG(LogTemp, Display, TEXT("Enemy attacked player"));

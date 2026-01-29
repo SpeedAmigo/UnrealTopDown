@@ -4,6 +4,7 @@
 #include "Characters/Player/PlayerAttributesComponent.h"
 #include "Engine/World.h"
 #include "Interfaces/Interactable.h"
+#include "Kismet/GameplayStatics.h"
 #include "Management/ArrowType.h"
 
 APlayerTwinStickCharacter::APlayerTwinStickCharacter()
@@ -81,15 +82,11 @@ void APlayerTwinStickCharacter::DoShoot(FArrowSpawnGroup ArrowData)
 		SpawnTransform.SetRotation(ProjectileRotation);
 
 		GetWorld()->SpawnActor<ATwinStickProjectile>(ProjectileClass, SpawnTransform);
-	}
-}
 
-void APlayerTwinStickCharacter::AoEAttack(const FInputActionValue& Value)
-{
-	if (PlayerAttributesComponent->GetEnergy() >= AoECost)
-	{
-		Super::AoEAttack(Value);
-		PlayerAttributesComponent->SubtractEnergy(AoECost);
+		if (ArrowRelease)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, ArrowRelease, ProjectileLocation);
+		}
 	}
 }
 
@@ -117,5 +114,9 @@ void APlayerTwinStickCharacter::NotifyHit(class UPrimitiveComponent* MyComp, AAc
 	if (Other->Implements<UInteractable>())
 	{
 		IInteractable::Execute_PickUp(Other, this);
+		if (PickupSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, PickupSound, GetActorLocation());
+		}
 	}
 }

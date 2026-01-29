@@ -7,6 +7,7 @@
 #include "Interfaces/Combat.h"
 #include "BaseEnemyCharacter.generated.h"
 
+class UNiagaraSystem;
 class APlayerTwinStickCharacter;
 class AEnemySpawner;
 class UEnemyDrop;
@@ -28,6 +29,15 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "EnemyDrop")
 	UEnemyDrop* EnemyDrop;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UNiagaraSystem* SpawnAndDeathVFX;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
+	USoundBase* DieSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SFX")
+	USoundBase* AttackSound;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Combat")
