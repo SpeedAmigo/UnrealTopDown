@@ -33,9 +33,12 @@ public:
 
 	void AssignSpawnManager(AEnemySpawnerManager* NewSpawnManager);
 
-	virtual void OnPossess(APawn* InPawn) override;
+protected:
+	virtual void Tick(float DeltaSeconds) override;
+
+	virtual void SetupInputComponent() override;
 
 	virtual void BeginPlay() override;
 
-	virtual void SetupInputComponent() override;
+	virtual void OnPossess(APawn* InPawn) override;
 };

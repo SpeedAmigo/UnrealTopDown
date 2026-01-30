@@ -20,6 +20,12 @@ void AMyPlayerController::AssignSpawnManager(AEnemySpawnerManager* NewSpawnerMan
 	SpawnerManager->OnScoreChanged.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateScore);
 }
 
+void AMyPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	PlayerHUD->Tick(DeltaSeconds);
+}
+
 void AMyPlayerController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);

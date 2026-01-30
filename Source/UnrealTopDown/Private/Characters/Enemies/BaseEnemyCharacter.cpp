@@ -42,6 +42,40 @@ void ABaseEnemyCharacter::BeginPlay()
 	);
 }
 
+
+// Called every frame
+void ABaseEnemyCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	AttackTimer -= DeltaTime;
+
+	if (AttackTimer > 0.f || !PlayerCharacter) return;
+	if ((PlayerCharacter->GetActorLocation() - GetActorLocation()).Size() < 100.0f)
+	{
+		if (AttackMontage)
+		{
+			PlayAnimMontage(AttackMontage);
+		}
+
+		if (AttackSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, AttackSound, GetActorLocation());
+		}
+
+		DealDamage(PlayerCharacter);
+		AttackTimer = AttackCooldown;
+		UE_LOG(LogTemp, Display, TEXT("Enemy attacked player"));
+	}
+}
+
+void ABaseEnemyCharacter::DealDamage(AActor* OtherActor)
+{
+	if (OtherActor->Implements<UCombat>())
+	{
+		Execute_GetDamage(OtherActor, Attributes->Damage);
+	}
+}
+
 void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 {
 	float Health = Attributes->GetHealth();
@@ -75,37 +109,3 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 		Attributes->SetHealth(Health);
 	}
 }
-
-// Called every frame
-void ABaseEnemyCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	AttackTimer -= DeltaTime;
-
-	if (AttackTimer > 0.f || !PlayerCharacter) return;
-	if ((PlayerCharacter->GetActorLocation() - GetActorLocation()).Size() < 100.0f)
-	{
-		if (AttackMontage)
-		{
-			PlayAnimMontage(AttackMontage);
-		}
-
-		if (AttackSound)
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, AttackSound, GetActorLocation());
-		}
-		
-		DealDamage(PlayerCharacter);
-		AttackTimer = AttackCooldown;
-		UE_LOG(LogTemp, Display, TEXT("Enemy attacked player"));
-	}
-}
-
-void ABaseEnemyCharacter::DealDamage(AActor* OtherActor)
-{
-	if (OtherActor->Implements<UCombat>())
-	{
-		Execute_GetDamage(OtherActor, Attributes->Damage);
-	}
-}
-
