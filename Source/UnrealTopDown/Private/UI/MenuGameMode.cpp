@@ -3,3 +3,7 @@
 
 #include "UI/MenuGameMode.h"
 
+AMenuGameMode::AMenuGameMode()
+{
+	
+}

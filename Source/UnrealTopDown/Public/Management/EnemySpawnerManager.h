@@ -6,7 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "EnemySpawnerManager.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnScoreChangedSignature, int32, Score, int, WaveNumber);
 
 class APlayerTwinStickCharacter;
 class AMyPlayerController;
@@ -16,11 +15,6 @@ UCLASS()
 class UNREALTOPDOWN_API AEnemySpawnerManager : public AActor
 {
 	GENERATED_BODY()
-
-public:
-
-	UPROPERTY()
-	FOnScoreChangedSignature OnScoreChanged;
 
 protected:
 
@@ -46,11 +40,7 @@ private:
 
 	float CurrentTimeBetweenSpawns;
 	int32 SpawnedEnemies;
-	int32 TotalEnemiesKilled;
 	bool StartSpawning;
-	
-	APawn* Player;
-	AMyPlayerController* PlayerController;
 
 public:	
 	// Sets default values for this actor's properties
@@ -66,7 +56,4 @@ protected:
 
 	void StartWave();
 	void Wave();
-
-private:
-	void SetPlayerActor();
 };

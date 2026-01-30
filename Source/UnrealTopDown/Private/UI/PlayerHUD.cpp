@@ -31,22 +31,24 @@ void UPlayerHUD::UpdateEnergy(float Current, float Max)
 	MaxEnergy = Max;
 }
 
-void UPlayerHUD::UpdateScore(int32 Score, int Wave)
+void UPlayerHUD::UpdateScore(int Points)
 {
-	ScoreText->SetText(FText::FromString(FString::Printf(TEXT("Score: %d\nWave: %d"), Score, Wave)));
+	TotalScore += Points;
+	ScoreText->SetText(FText::FromString(FString::Printf(TEXT("%d | Score"), TotalScore)));
 }
 
 void UPlayerHUD::UpdateTime(float Time)
 {
 	if (Time <= 60.f)
 	{
-		GameTimeText->SetText(FText::FromString(FString::Printf(TEXT("Time: %.0f s"), Time)));
+		int32 Seconds = FMath::FloorToInt(FMath::Fmod(Time, 60.f));
+		GameTimeText->SetText(FText::FromString(FString::Printf(TEXT("%d s | Time"), Seconds)));
 	}
 	else
 	{
 		int32 Minutes = FMath::FloorToInt(Time / 60.f);
 		int32 Seconds = FMath::FloorToInt(FMath::Fmod(Time, 60.f));
-		GameTimeText->SetText(FText::FromString(FString::Printf(TEXT("Time: %d m %d s"), Minutes, Seconds)));
+		GameTimeText->SetText(FText::FromString(FString::Printf(TEXT("%d m %d s | Time"), Minutes, Seconds)));
 	}
 }
 

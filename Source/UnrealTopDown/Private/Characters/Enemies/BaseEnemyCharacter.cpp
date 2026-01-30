@@ -11,7 +11,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Objects/EnemySpawner.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Characters/Player/MyPlayerController.h"
 #include "Engine/World.h"
+#include "UI/PlayerHUD.h"
 
 // Sets default values
 ABaseEnemyCharacter::ABaseEnemyCharacter()
@@ -32,6 +34,8 @@ void ABaseEnemyCharacter::BeginPlay()
 
 	PawnState = PawnState::Moving;
 
+	PlayerController = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+
 	PlayerCharacter = Cast<APlayerTwinStickCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(
@@ -40,6 +44,10 @@ void ABaseEnemyCharacter::BeginPlay()
 	GetActorLocation(),
 	GetActorRotation()
 	);
+
+	PlayerHUD = PlayerController->GetPlayerHUD();
+
+	OnEnemyDied.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateScore);
 }
 
 
@@ -88,7 +96,6 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 		{
 			EnemyDrop->DropItem();
 		}
-		Spawner->SpawnedEnemyDies();
 
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(
 			GetWorld(),
@@ -100,6 +107,11 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 		if (DieSound)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, DieSound, GetActorLocation());
+		}
+
+		if (OnEnemyDied.IsBound())
+		{
+			OnEnemyDied.Broadcast(Attributes->GetPoints());
 		}
 		
 		Destroy();

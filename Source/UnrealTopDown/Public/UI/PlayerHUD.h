@@ -15,6 +15,8 @@ class UNREALTOPDOWN_API UPlayerHUD : public UUserWidget
 	GENERATED_BODY()
 
 private:
+	int32 TotalScore;
+
 	float InterSpeed = 10.f;
 
 	float TimePassed;
@@ -50,7 +52,7 @@ public:
 	void UpdateEnergy(float Current, float Max);
 
 	UFUNCTION()
-	void UpdateScore(int32 Score, int Wave);
+	void UpdateScore(int Points);
 
 protected:
 

@@ -18,26 +18,10 @@ AEnemySpawnerManager::AEnemySpawnerManager()
 
 }
 
-void AEnemySpawnerManager::AddTotalEnemiesKilled()
-{
-	TotalEnemiesKilled++;
-	if (OnScoreChanged.IsBound())
-	{
-		OnScoreChanged.Broadcast(TotalEnemiesKilled, WaveNumber);
-	}
-}
-
 // Called when the game starts or when spawned
 void AEnemySpawnerManager::BeginPlay()
 {
 	Super::BeginPlay();
-
-	for (auto Spawner : Spawners)
-	{
-		Spawner->SetSpawnerManager(this);
-	}
-
-	SetPlayerActor();
 
 	WaveNumber = 0;
 	StartSpawning = true;
@@ -87,13 +71,6 @@ void AEnemySpawnerManager::Wave()
 
 		StartWave();
 	}
-}
-
-void AEnemySpawnerManager::SetPlayerActor()
-{
-	Player = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	PlayerController = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	PlayerController->AssignSpawnManager(this);
 }
 
 void AEnemySpawnerManager::StartWave()

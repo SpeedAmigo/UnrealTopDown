@@ -33,6 +33,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
 	float CurrentStamina;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
+	float Points;
+
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -45,4 +49,5 @@ public:
 
 	void SetMaxHealth(float NewMaxHealth);
 	void SetMaxStamina(float NewMaxStamina);
+	int GetPoints() { return Points; }
 };

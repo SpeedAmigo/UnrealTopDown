@@ -92,14 +92,7 @@ void APlayerTwinStickCharacter::DoShoot(FArrowSpawnGroup ArrowData)
 
 void APlayerTwinStickCharacter::GetDamage_Implementation(float amount)
 {
-	if (PlayerAttributesComponent->GetHealth() - amount <= 0.f)
-	{
-		Die();
-	}
-	else
-	{
-		PlayerAttributesComponent->TakeDamage(amount);
-	}
+	PlayerAttributesComponent->TakeDamage(amount);
 }
 
 void APlayerTwinStickCharacter::Die()

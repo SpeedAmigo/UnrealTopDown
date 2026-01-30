@@ -13,5 +13,7 @@ UCLASS()
 class UNREALTOPDOWN_API AMenuGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+protected:
+	AMenuGameMode();
 };
