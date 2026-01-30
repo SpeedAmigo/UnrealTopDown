@@ -15,7 +15,7 @@ class UNREALTOPDOWN_API UPlayerHUD : public UUserWidget
 	GENERATED_BODY()
 
 private:
-	float InterSpeed = 5.f;
+	float InterSpeed = 10.f;
 
 	float TimePassed;
 

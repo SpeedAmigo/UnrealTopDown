@@ -11,8 +11,10 @@ void UPlayerHUD::Tick(float DeltaSeconds)
 	TimePassed += DeltaSeconds;
 	UpdateTime(TimePassed);
 
-	UpdateHealthTick(DeltaSeconds);
-	UpdateEnergyTick(DeltaSeconds);
+	if (OldHealth != CurrentHealth)
+		UpdateHealthTick(DeltaSeconds);
+	if (OldEnergy != CurrentEnergy)
+		UpdateEnergyTick(DeltaSeconds);
 }
 
 void UPlayerHUD::UpdateHealth(float Current, float Max)
