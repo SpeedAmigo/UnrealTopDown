@@ -48,9 +48,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Animation")
 	UAnimMontage* AttackMontage;
 
-	UPROPERTY(EditDefaultsOnly, Category="Animation")
-	UAnimMontage* AttackMontageSecond;
-
 private:
 	APlayerTwinStickCharacter* PlayerCharacter;
 
