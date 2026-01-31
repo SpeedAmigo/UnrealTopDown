@@ -5,6 +5,7 @@
 
 #include "Characters/Enemies/BaseEnemyCharacter.h"
 #include "Characters/Enemies/EnemyAIController.h"
+#include "Characters/Enemies/EnemyAttributes.h"
 #include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
@@ -30,16 +31,8 @@ void AEnemySpawner::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-int AEnemySpawner::PickRandomEnemy()
+void AEnemySpawner::SpawnEnemy(TArray<TSubclassOf<ABaseEnemyCharacter>> EnemyArray, int Wave, float HealthGrow, float DamageGrow)
 {
-	if (EnemyArray.Num() == 0) return false;
-
-	return FMath::RandRange(0, EnemyArray.Num() - 1);
-}
-
-void AEnemySpawner::SpawnEnemy()
-{
-	if (EnemyArray.Num() == 0) return;
 
 	UWorld* World = GetWorld();
 	if (!World) return;
@@ -47,11 +40,21 @@ void AEnemySpawner::SpawnEnemy()
 	FTransform SpawnTransform = GetActorTransform();
 	FVector SpawnLocation = GetActorLocation() + FVector(0, 0, 50.f);
 	SpawnTransform.SetLocation(SpawnLocation);
-	
-	ABaseEnemyCharacter* spawned = World->SpawnActor<ABaseEnemyCharacter>(EnemyArray[PickRandomEnemy()], SpawnTransform);
 
-	spawned->AssignSpawner(this);
-	
+	ABaseEnemyCharacter* spawned = World->SpawnActor<ABaseEnemyCharacter>(EnemyArray[PickRandomEnemy(EnemyArray)], SpawnTransform);
+
+	UEnemyAttributes* EnemyAttributes = spawned->GetAttributes();
+	EnemyAttributes->SetMaxHealth(EnemyAttributes->GetMaxHealth() + (HealthGrow * Wave));
+	EnemyAttributes->SetDamage(EnemyAttributes->GetDamage() + (DamageGrow * Wave));
+
 	//UE_LOG(LogTemp, Warning, TEXT("EnemySpawned"));
 }
+
+int AEnemySpawner::PickRandomEnemy(const TArray<TSubclassOf<ABaseEnemyCharacter>>& EnemyArray) const
+{
+	if (EnemyArray.Num() == 0) return false;
+
+	return FMath::RandRange(0, EnemyArray.Num() - 1);
+}
+
 

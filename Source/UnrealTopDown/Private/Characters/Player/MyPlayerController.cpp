@@ -5,6 +5,8 @@
 
 #include "Characters/Player/PlayerAttributesComponent.h"
 #include "Characters/Player/PlayerTwinStickCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "UI/GameOverUI.h"
 #include "UI/PlayerHUD.h"
 
 
@@ -16,7 +18,10 @@ AMyPlayerController::AMyPlayerController()
 void AMyPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	PlayerHUD->Tick(DeltaSeconds);
+	if (PlayerHUD)
+	{
+		PlayerHUD->Tick(DeltaSeconds);
+	}
 }
 
 void AMyPlayerController::OnPossess(APawn* InPawn)
@@ -27,6 +32,7 @@ void AMyPlayerController::OnPossess(APawn* InPawn)
 	{
 		PlayerHUD->AddToViewport();
 	}
+
 	PlayerCharacter = Cast<APlayerTwinStickCharacter>(InPawn);
 	if (PlayerCharacter)
 	{
@@ -34,6 +40,19 @@ void AMyPlayerController::OnPossess(APawn* InPawn)
 
 		PlayerAttributesComponent->OnHealthChanged.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateHealth);
 		PlayerAttributesComponent->OnEnergyChanged.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateEnergy);
+		PlayerAttributesComponent->OnDeath.AddDynamic(this, &AMyPlayerController::Death);
+	}
+}
+
+void AMyPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	if (PlayerCharacter && PlayerAttributesComponent)
+	{
+		PlayerAttributesComponent->OnHealthChanged.RemoveDynamic(PlayerHUD, &UPlayerHUD::UpdateHealth);
+		PlayerAttributesComponent->OnEnergyChanged.RemoveDynamic(PlayerHUD, &UPlayerHUD::UpdateEnergy);
+		PlayerAttributesComponent->OnDeath.RemoveDynamic(this, &AMyPlayerController::Death);
 	}
 }
 
@@ -45,4 +64,17 @@ void AMyPlayerController::BeginPlay()
 void AMyPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
+}
+
+void AMyPlayerController::Death()
+{
+	if (GameOverUI)
+	{
+		GameOverUI->AddToViewport();
+	}
+	if (PlayerCharacter)
+	{
+		PlayerCharacter->DisableInput(this);
+	}
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }

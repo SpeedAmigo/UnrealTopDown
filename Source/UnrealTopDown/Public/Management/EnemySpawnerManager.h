@@ -6,18 +6,33 @@
 #include "GameFramework/Actor.h"
 #include "EnemySpawnerManager.generated.h"
 
-
-class APlayerTwinStickCharacter;
+class ABaseEnemyCharacter;
 class AMyPlayerController;
 class AEnemySpawner;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWaveChangedSignature, int, Wave);
 
 UCLASS()
 class UNREALTOPDOWN_API AEnemySpawnerManager : public AActor
 {
 	GENERATED_BODY()
 
-protected:
+public:
+	UPROPERTY()
+	FOnWaveChangedSignature OnWaveChanged;
+	AMyPlayerController* MyPlayerController;
 
+protected:
+	//Enemies Wave Settings
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
+	TArray<TSubclassOf<ABaseEnemyCharacter>> EnemyArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Stats")
+	float DamageGrow = 10.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Stats")
+	float HealthGrow = 50.f;
+
+	//Wave Settings
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Settings")
 	int WaveNumber;
 
@@ -46,9 +61,8 @@ public:
 	// Sets default values for this actor's properties
 	AEnemySpawnerManager();
 
-	void AddTotalEnemiesKilled();
-
 	virtual void Tick(float DeltaTime) override;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -56,4 +70,9 @@ protected:
 
 	void StartWave();
 	void Wave();
+
+	void SpawnEnemy(AEnemySpawner* PickedSpawner);
+private:
+	int PickRandomEnemy() const;
+
 };

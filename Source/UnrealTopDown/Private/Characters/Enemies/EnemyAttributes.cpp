@@ -19,6 +19,9 @@ UEnemyAttributes::UEnemyAttributes()
 void UEnemyAttributes::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CurrentHealth = MaxHealth;
+	CurrentStamina = MaxStamina;
 }
 
 
@@ -28,9 +31,15 @@ void UEnemyAttributes::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-float UEnemyAttributes::GetHealth() const { return CurrentHealth;}
+float UEnemyAttributes::GetHealth() const { return CurrentHealth; }
 
-float UEnemyAttributes::GetStamina() const { return CurrentStamina;}
+float UEnemyAttributes::GetMaxHealth() const{ return MaxHealth; }
+
+float UEnemyAttributes::GetStamina() const { return CurrentStamina; }
+
+float UEnemyAttributes::GetMaxStamina() const{ return MaxStamina; }
+
+float UEnemyAttributes::GetDamage() const{ return Damage; }
 
 void UEnemyAttributes::SetHealth(float NewCurrentHealth)
 {
@@ -40,6 +49,11 @@ void UEnemyAttributes::SetHealth(float NewCurrentHealth)
 void UEnemyAttributes::SetStamina(float NewCurrentStamina)
 {
 	CurrentStamina = NewCurrentStamina;
+}
+
+void UEnemyAttributes::SetDamage(float NewDamage)
+{
+	Damage = NewDamage;
 }
 
 void UEnemyAttributes::SetMaxHealth(float NewMaxHealth)

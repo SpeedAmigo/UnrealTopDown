@@ -3,19 +3,19 @@
 
 #include "Management/EnemySpawnerManager.h"
 
+#include "Characters/Enemies/BaseEnemyCharacter.h"
+#include "Characters/Enemies/EnemyAttributes.h"
 #include "Characters/Player/MyPlayerController.h"
-#include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Engine/World.h"
-#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "Objects/EnemySpawner.h"
+#include "UI/PlayerHUD.h"
 
 // Sets default values
 AEnemySpawnerManager::AEnemySpawnerManager()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
@@ -23,8 +23,16 @@ void AEnemySpawnerManager::BeginPlay()
 {
 	Super::BeginPlay();
 
+	MyPlayerController = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+	OnWaveChanged.AddDynamic(MyPlayerController->GetPlayerHUD(), &UPlayerHUD::UpdateWave);
+
 	WaveNumber = 0;
 	StartSpawning = true;
+
+	if (OnWaveChanged.IsBound())
+	{
+		OnWaveChanged.Broadcast(WaveNumber);
+	}
 }
 
 // Called every frame
@@ -45,6 +53,14 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 
 }
 
+void AEnemySpawnerManager::SpawnEnemy(AEnemySpawner* PickedSpawner)
+{
+	if (IsValid(PickedSpawner))
+	{
+		PickedSpawner->SpawnEnemy(EnemyArray, WaveNumber, HealthGrow, DamageGrow);
+	}
+}
+
 void AEnemySpawnerManager::Wave()
 {
 	if (SpawnedEnemies < EnemiesToSpawn){
@@ -54,10 +70,7 @@ void AEnemySpawnerManager::Wave()
 		int32 Index = FMath::RandRange(0, Spawners.Num() - 1);
 		AEnemySpawner* PickedSpawner = Spawners[Index];
 
-		if (IsValid(PickedSpawner))
-		{
-			PickedSpawner->SpawnEnemy();
-		}
+		SpawnEnemy(PickedSpawner);
 
 		SpawnedEnemies++;
 		CurrentTimeBetweenSpawns = TimeBetweenSpawns;
@@ -88,7 +101,11 @@ void AEnemySpawnerManager::StartWave()
 	SpawnedEnemies = 0;
 	
 	WaveStarted = true;
-	
+
+	if (OnWaveChanged.IsBound())
+	{
+		OnWaveChanged.Broadcast(WaveNumber);
+	}
 }
 
 

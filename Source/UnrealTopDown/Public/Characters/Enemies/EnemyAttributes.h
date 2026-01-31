@@ -42,10 +42,14 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
 	float GetHealth() const;
+	float GetMaxHealth() const;
 	float GetStamina() const;
+	float GetMaxStamina() const;
+	float GetDamage() const;
 
 	void SetHealth(float NewCurrentHealth);
 	void SetStamina(float NewCurrentStamina);
+	void SetDamage(float NewDamage);
 
 	void SetMaxHealth(float NewMaxHealth);
 	void SetMaxStamina(float NewMaxStamina);

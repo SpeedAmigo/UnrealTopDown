@@ -42,6 +42,10 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ScoreText;
 
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* WaveText;
+
+
 public:
 	void Tick(float DeltaSeconds);
 
@@ -53,6 +57,9 @@ public:
 
 	UFUNCTION()
 	void UpdateScore(int Points);
+
+	UFUNCTION()
+	void UpdateWave(int Wave);
 
 protected:
 

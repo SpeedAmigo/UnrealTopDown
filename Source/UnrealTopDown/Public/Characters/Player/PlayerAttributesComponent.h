@@ -8,6 +8,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEnergyChangedSignature, float, CurrentStamina, float, MaxStamina);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChangedSignature, float, CurrentHealth, float, MaxHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeathSignature);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALTOPDOWN_API UPlayerAttributesComponent : public UActorComponent
@@ -22,6 +23,9 @@ public:
 
 	UPROPERTY()
 	FOnEnergyChangedSignature OnEnergyChanged;
+
+	UPROPERTY()
+	FOnDeathSignature OnDeath;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Attributes")

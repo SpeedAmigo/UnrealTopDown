@@ -11,10 +11,8 @@ void UPlayerHUD::Tick(float DeltaSeconds)
 	TimePassed += DeltaSeconds;
 	UpdateTime(TimePassed);
 
-	if (OldHealth != CurrentHealth)
-		UpdateHealthTick(DeltaSeconds);
-	if (OldEnergy != CurrentEnergy)
-		UpdateEnergyTick(DeltaSeconds);
+	UpdateHealthTick(DeltaSeconds);
+	UpdateEnergyTick(DeltaSeconds);
 }
 
 void UPlayerHUD::UpdateHealth(float Current, float Max)
@@ -36,6 +34,12 @@ void UPlayerHUD::UpdateScore(int Points)
 	TotalScore += Points;
 	ScoreText->SetText(FText::FromString(FString::Printf(TEXT("%d | Score"), TotalScore)));
 }
+
+void UPlayerHUD::UpdateWave(int Wave)
+{
+	WaveText->SetText(FText::FromString(FString::Printf(TEXT("%d | Wave"), Wave)));
+}
+
 
 void UPlayerHUD::UpdateTime(float Time)
 {
