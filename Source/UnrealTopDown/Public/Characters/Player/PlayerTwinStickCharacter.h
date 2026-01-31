@@ -49,7 +49,6 @@ protected:
 
 	virtual void Shoot(const FInputActionValue& Value) override;
 	
-	virtual void GetDamage_Implementation(float amount) override;
 
 	virtual void DoShoot(FArrowSpawnGroup ArrowData);
 	
@@ -69,6 +68,9 @@ public:
 	void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
 	
 public:
+
+	virtual void GetDamage_Implementation(float amount) override;
+
 	UPlayerAttributesComponent* GetPlayerAttributesComponent() const { return PlayerAttributesComponent; }
 
 };

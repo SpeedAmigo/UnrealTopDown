@@ -55,14 +55,3 @@ void AEnemySpawner::SpawnEnemy()
 	//UE_LOG(LogTemp, Warning, TEXT("EnemySpawned"));
 }
 
-void AEnemySpawner::SetSpawnerManager(AEnemySpawnerManager* NewSpawnerManager)
-{
-	SpawnerManager = NewSpawnerManager;
-	UE_LOG(LogTemp, Warning, TEXT("Spawner Manager set"));
-}
-
-void AEnemySpawner::SpawnedEnemyDies()
-{
-	SpawnerManager->AddTotalEnemiesKilled();
-}
-

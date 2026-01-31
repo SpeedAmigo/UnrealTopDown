@@ -7,6 +7,8 @@
 #include "Interfaces/Combat.h"
 #include "BaseEnemyCharacter.generated.h"
 
+class UPlayerHUD;
+class AMyPlayerController;
 class UNiagaraSystem;
 class APlayerTwinStickCharacter;
 class AEnemySpawner;
@@ -16,11 +18,18 @@ enum class PawnState : uint8;
 class UStaticMeshComponent;
 class UCapsuleComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnemyDiedSignature, int, Points);
+
 UCLASS()
 class UNREALTOPDOWN_API ABaseEnemyCharacter : public ACharacter, public ICombat
 {
 	GENERATED_BODY()
+
 public:
+
+	UPROPERTY()
+	FOnEnemyDiedSignature OnEnemyDied;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category= "State")
 	PawnState PawnState;
 
@@ -49,7 +58,10 @@ protected:
 	UAnimMontage* AttackMontage;
 
 private:
+
 	APlayerTwinStickCharacter* PlayerCharacter;
+	AMyPlayerController* PlayerController;
+	UPlayerHUD* PlayerHUD;
 
 	float AttackTimer;
 

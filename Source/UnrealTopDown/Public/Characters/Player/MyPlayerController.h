@@ -2,6 +2,7 @@
 
 #pragma once
 
+
 #include "CoreMinimal.h"
 #include "Variant_TwinStick/TwinStickPlayerController.h"
 #include "MyPlayerController.generated.h"
@@ -12,10 +13,13 @@ class APlayerTwinStickCharacter;
 class UUserWidget;
 class UPlayerAttributesComponent;
 
+
 UCLASS()
 class UNREALTOPDOWN_API AMyPlayerController : public ATwinStickPlayerController
 {
 	GENERATED_BODY()
+
+public:
 
 protected:
 
@@ -27,15 +31,19 @@ private:
 	UPROPERTY(EditAnywhere, Category="UI")
 	UPlayerHUD* PlayerHUD;
 
+	int32 Score = 0;
 
 public:
+	UPlayerHUD* GetPlayerHUD() { return PlayerHUD; }
+
+protected:
 	AMyPlayerController();
 
-	void AssignSpawnManager(AEnemySpawnerManager* NewSpawnManager);
+	virtual void Tick(float DeltaSeconds) override;
 
-	virtual void OnPossess(APawn* InPawn) override;
+	virtual void SetupInputComponent() override;
 
 	virtual void BeginPlay() override;
 
-	virtual void SetupInputComponent() override;
+	virtual void OnPossess(APawn* InPawn) override;
 };

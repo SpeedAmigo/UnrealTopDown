@@ -18,13 +18,14 @@ class ATwinStickProjectile : public AActor
 {
 	GENERATED_BODY()
 	
-	/** Projectile collision sphere */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	USphereComponent* CollisionSphere;
 
 	/** Mesh that provides the visual representation for this projectile */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* Mesh;
+
+	/** Projectile collision sphere */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	USphereComponent* CollisionSphere;
 
 	/** Handles movement behaviors for this projectile */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))

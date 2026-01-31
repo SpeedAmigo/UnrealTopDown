@@ -18,8 +18,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	TArray<TSubclassOf<ABaseEnemyCharacter>> EnemyArray;
 
-	AEnemySpawnerManager* SpawnerManager;
-
 public:	
 	// Sets default values for this actor's properties
 	AEnemySpawner();
@@ -28,10 +26,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void SpawnEnemy();
-
-	void SetSpawnerManager(AEnemySpawnerManager* NewSpawnerManager);
-
-	void SpawnedEnemyDies();
 
 protected:
 	// Called when the game starts or when spawned

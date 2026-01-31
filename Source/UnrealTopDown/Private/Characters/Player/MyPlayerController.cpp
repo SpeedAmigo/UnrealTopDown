@@ -5,7 +5,6 @@
 
 #include "Characters/Player/PlayerAttributesComponent.h"
 #include "Characters/Player/PlayerTwinStickCharacter.h"
-#include "Management/EnemySpawnerManager.h"
 #include "UI/PlayerHUD.h"
 
 
@@ -14,10 +13,10 @@ AMyPlayerController::AMyPlayerController()
 	bEnableTouchEvents = false;
 }
 
-void AMyPlayerController::AssignSpawnManager(AEnemySpawnerManager* NewSpawnerManager)
+void AMyPlayerController::Tick(float DeltaSeconds)
 {
-	SpawnerManager = NewSpawnerManager;
-	SpawnerManager->OnScoreChanged.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateScore);
+	Super::Tick(DeltaSeconds);
+	PlayerHUD->Tick(DeltaSeconds);
 }
 
 void AMyPlayerController::OnPossess(APawn* InPawn)

@@ -15,7 +15,19 @@ class UNREALTOPDOWN_API UPlayerHUD : public UUserWidget
 	GENERATED_BODY()
 
 private:
-	int32 TimePassed;
+	int32 TotalScore;
+
+	float InterSpeed = 10.f;
+
+	float TimePassed;
+
+	float OldHealth;
+	float CurrentHealth;
+	float MaxHealth;
+
+	float OldEnergy;
+	float CurrentEnergy;
+	float MaxEnergy;
 
 public:
 	UPROPERTY(meta = (BindWidget))
@@ -31,6 +43,8 @@ public:
 	UTextBlock* ScoreText;
 
 public:
+	void Tick(float DeltaSeconds);
+
 	UFUNCTION()
 	void UpdateHealth(float Current, float Max);
 
@@ -38,6 +52,13 @@ public:
 	void UpdateEnergy(float Current, float Max);
 
 	UFUNCTION()
-	void UpdateScore(int32 Score, int Wave);
+	void UpdateScore(int Points);
 
+protected:
+
+	void UpdateTime(float Time);
+
+	void UpdateHealthTick(float DeltaTime);
+
+	void UpdateEnergyTick(float DeltaTime);
 };

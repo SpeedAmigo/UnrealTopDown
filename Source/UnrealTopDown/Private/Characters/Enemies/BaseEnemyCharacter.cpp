@@ -11,7 +11,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Objects/EnemySpawner.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Characters/Player/MyPlayerController.h"
 #include "Engine/World.h"
+#include "UI/PlayerHUD.h"
 
 // Sets default values
 ABaseEnemyCharacter::ABaseEnemyCharacter()
@@ -32,6 +34,8 @@ void ABaseEnemyCharacter::BeginPlay()
 
 	PawnState = PawnState::Moving;
 
+	PlayerController = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+
 	PlayerCharacter = Cast<APlayerTwinStickCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(
@@ -40,41 +44,12 @@ void ABaseEnemyCharacter::BeginPlay()
 	GetActorLocation(),
 	GetActorRotation()
 	);
+
+	PlayerHUD = PlayerController->GetPlayerHUD();
+
+	OnEnemyDied.AddDynamic(PlayerHUD, &UPlayerHUD::UpdateScore);
 }
 
-void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
-{
-	float Health = Attributes->GetHealth();
-	Health -= amount;
-	
-	if (Health <= 0)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Enemy Died!"))
-		if (EnemyDrop)
-		{
-			EnemyDrop->DropItem();
-		}
-		Spawner->SpawnedEnemyDies();
-
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(
-			GetWorld(),
-			SpawnAndDeathVFX,
-			GetActorLocation(),
-			GetActorRotation()
-			);
-		
-		if (DieSound)
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, DieSound, GetActorLocation());
-		}
-		
-		Destroy();
-	}
-	else
-	{
-		Attributes->SetHealth(Health);
-	}
-}
 
 // Called every frame
 void ABaseEnemyCharacter::Tick(float DeltaTime)
@@ -94,7 +69,7 @@ void ABaseEnemyCharacter::Tick(float DeltaTime)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, AttackSound, GetActorLocation());
 		}
-		
+
 		DealDamage(PlayerCharacter);
 		AttackTimer = AttackCooldown;
 		UE_LOG(LogTemp, Display, TEXT("Enemy attacked player"));
@@ -109,3 +84,40 @@ void ABaseEnemyCharacter::DealDamage(AActor* OtherActor)
 	}
 }
 
+void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
+{
+	float Health = Attributes->GetHealth();
+	Health -= amount;
+	
+	if (Health <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Enemy Died!"))
+		if (EnemyDrop)
+		{
+			EnemyDrop->DropItem();
+		}
+
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+			GetWorld(),
+			SpawnAndDeathVFX,
+			GetActorLocation(),
+			GetActorRotation()
+			);
+		
+		if (DieSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, DieSound, GetActorLocation());
+		}
+
+		if (OnEnemyDied.IsBound())
+		{
+			OnEnemyDied.Broadcast(Attributes->GetPoints());
+		}
+		
+		Destroy();
+	}
+	else
+	{
+		Attributes->SetHealth(Health);
+	}
+}

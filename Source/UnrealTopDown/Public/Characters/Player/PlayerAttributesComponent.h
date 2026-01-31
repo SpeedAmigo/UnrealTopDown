@@ -14,6 +14,8 @@ class UNREALTOPDOWN_API UPlayerAttributesComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+private:
+	 
 public:
 	UPROPERTY()
 	FOnHealthChangedSignature OnHealthChanged;
