@@ -11,6 +11,7 @@ class AMyPlayerController;
 class AEnemySpawner;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWaveChangedSignature, int, Wave);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSpawnEnemiesSignature, int, Wave);
 
 UCLASS()
 class UNREALTOPDOWN_API AEnemySpawnerManager : public AActor
@@ -20,6 +21,9 @@ class UNREALTOPDOWN_API AEnemySpawnerManager : public AActor
 public:
 	UPROPERTY()
 	FOnWaveChangedSignature OnWaveChanged;
+	UPROPERTY()
+	FOnSpawnEnemiesSignature OnSpawnEnemies;
+
 	AMyPlayerController* MyPlayerController;
 
 protected:
@@ -31,6 +35,8 @@ protected:
 	float DamageGrow = 10.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Stats")
 	float HealthGrow = 50.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Stats")
+	float SpeedGrow = 10.f;
 
 	//Wave Settings
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Settings")
@@ -67,12 +73,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void StartWave();
 	void Wave();
-
-	void SpawnEnemy(AEnemySpawner* PickedSpawner);
-private:
-	int PickRandomEnemy() const;
-
 };

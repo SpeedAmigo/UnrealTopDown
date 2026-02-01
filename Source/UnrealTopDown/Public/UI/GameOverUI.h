@@ -13,5 +13,14 @@ UCLASS()
 class UNREALTOPDOWN_API UGameOverUI : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+protected:
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* ScoreText;
+
+public:
+	UFUNCTION()
+	void SetFinalScore(int FinalScore);
+
 };

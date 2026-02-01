@@ -50,6 +50,9 @@ public:
 	void Tick(float DeltaSeconds);
 
 	UFUNCTION()
+	int GetFinalScore() const { return TotalScore; }
+
+	UFUNCTION()
 	void UpdateHealth(float Current, float Max);
 
 	UFUNCTION()

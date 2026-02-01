@@ -4,11 +4,8 @@
 #include "Objects/EnemySpawner.h"
 
 #include "Characters/Enemies/BaseEnemyCharacter.h"
-#include "Characters/Enemies/EnemyAIController.h"
 #include "Characters/Enemies/EnemyAttributes.h"
-#include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Engine/World.h"
-#include "GameFramework/Character.h"
 #include "Management/EnemySpawnerManager.h"
 
 // Sets default values
@@ -31,7 +28,7 @@ void AEnemySpawner::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AEnemySpawner::SpawnEnemy(TArray<TSubclassOf<ABaseEnemyCharacter>> EnemyArray, int Wave, float HealthGrow, float DamageGrow)
+void AEnemySpawner::SpawnEnemy(int Wave)
 {
 
 	UWorld* World = GetWorld();
@@ -41,18 +38,26 @@ void AEnemySpawner::SpawnEnemy(TArray<TSubclassOf<ABaseEnemyCharacter>> EnemyArr
 	FVector SpawnLocation = GetActorLocation() + FVector(0, 0, 50.f);
 	SpawnTransform.SetLocation(SpawnLocation);
 
-	ABaseEnemyCharacter* spawned = World->SpawnActor<ABaseEnemyCharacter>(EnemyArray[PickRandomEnemy(EnemyArray)], SpawnTransform);
+	ABaseEnemyCharacter* spawned = World->SpawnActor<ABaseEnemyCharacter>(EnemyArray[PickRandomEnemy()], SpawnTransform);
 
 	UEnemyAttributes* EnemyAttributes = spawned->GetAttributes();
 	EnemyAttributes->SetMaxHealth(EnemyAttributes->GetMaxHealth() + (HealthGrow * Wave));
 	EnemyAttributes->SetDamage(EnemyAttributes->GetDamage() + (DamageGrow * Wave));
-
-	//UE_LOG(LogTemp, Warning, TEXT("EnemySpawned"));
+	EnemyAttributes->SetSpeed(EnemyAttributes->GetSpeed() + (SpeedGrow * Wave));
 }
 
-int AEnemySpawner::PickRandomEnemy(const TArray<TSubclassOf<ABaseEnemyCharacter>>& EnemyArray) const
+void AEnemySpawner::SetDefaults(TArray<TSubclassOf<ABaseEnemyCharacter>> EnemiesToSpawn, float HealthGrowth, float DamageGrowth, float SpeedGrowth)
 {
-	if (EnemyArray.Num() == 0) return false;
+	EnemyArray = EnemiesToSpawn;
+	HealthGrow = HealthGrowth;
+	DamageGrow = DamageGrowth;
+	SpeedGrow = SpeedGrowth;
+
+}
+
+int AEnemySpawner::PickRandomEnemy()
+{
+	if (EnemyArray.Num() == 0) return -1;
 
 	return FMath::RandRange(0, EnemyArray.Num() - 1);
 }

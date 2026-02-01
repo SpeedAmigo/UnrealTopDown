@@ -2,9 +2,6 @@
 
 
 #include "Management/EnemySpawnerManager.h"
-
-#include "Characters/Enemies/BaseEnemyCharacter.h"
-#include "Characters/Enemies/EnemyAttributes.h"
 #include "Characters/Player/MyPlayerController.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
@@ -26,6 +23,12 @@ void AEnemySpawnerManager::BeginPlay()
 	MyPlayerController = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
 	OnWaveChanged.AddDynamic(MyPlayerController->GetPlayerHUD(), &UPlayerHUD::UpdateWave);
 
+	for (auto EnemySpawner : Spawners)
+	{
+		EnemySpawner->SetDefaults(EnemyArray, HealthGrow, DamageGrow, SpeedGrow);
+		OnSpawnEnemies.AddDynamic(EnemySpawner, &AEnemySpawner::SpawnEnemy);
+	}
+
 	WaveNumber = 0;
 	StartSpawning = true;
 
@@ -34,6 +37,17 @@ void AEnemySpawnerManager::BeginPlay()
 		OnWaveChanged.Broadcast(WaveNumber);
 	}
 }
+
+void AEnemySpawnerManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	for (auto Spawner : Spawners)
+	{
+		OnSpawnEnemies.RemoveDynamic(Spawner, &AEnemySpawner::SpawnEnemy);
+	}
+}
+
 
 // Called every frame
 void AEnemySpawnerManager::Tick(float DeltaTime)
@@ -53,24 +67,15 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 
 }
 
-void AEnemySpawnerManager::SpawnEnemy(AEnemySpawner* PickedSpawner)
-{
-	if (IsValid(PickedSpawner))
-	{
-		PickedSpawner->SpawnEnemy(EnemyArray, WaveNumber, HealthGrow, DamageGrow);
-	}
-}
-
 void AEnemySpawnerManager::Wave()
 {
 	if (SpawnedEnemies < EnemiesToSpawn){
 		if (Spawners.Num() == 0) return;
 
 		//pick random spawner and spawn enemy
-		int32 Index = FMath::RandRange(0, Spawners.Num() - 1);
-		AEnemySpawner* PickedSpawner = Spawners[Index];
-
-		SpawnEnemy(PickedSpawner);
+		//int32 Index = FMath::RandRange(0, Spawners.Num() - 1);
+		//AEnemySpawner* PickedSpawner = Spawners[Index];
+		OnSpawnEnemies.Broadcast(WaveNumber);
 
 		SpawnedEnemies++;
 		CurrentTimeBetweenSpawns = TimeBetweenSpawns;

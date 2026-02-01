@@ -35,8 +35,6 @@ private:
 	UPROPERTY(EditAnywhere, Category="UI")
 	UGameOverUI* GameOverUI;
 
-	int32 Score = 0;
-
 public:
 	UPlayerHUD* GetPlayerHUD() { return PlayerHUD; }
 

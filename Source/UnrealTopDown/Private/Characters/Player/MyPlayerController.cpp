@@ -71,6 +71,7 @@ void AMyPlayerController::Death()
 	if (GameOverUI)
 	{
 		GameOverUI->AddToViewport();
+		GameOverUI->SetFinalScore(PlayerHUD->GetFinalScore());
 	}
 	if (PlayerCharacter)
 	{
