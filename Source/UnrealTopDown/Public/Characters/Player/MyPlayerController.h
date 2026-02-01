@@ -11,7 +11,6 @@ class UGameOverUI;
 class AEnemySpawnerManager;
 class UPlayerHUD;
 class APlayerTwinStickCharacter;
-class UUserWidget;
 class UPlayerAttributesComponent;
 
 

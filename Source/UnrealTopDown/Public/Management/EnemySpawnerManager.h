@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "EnemySpawnerManager.generated.h"
 
+class UCountDownUI;
 class ABaseEnemyCharacter;
 class AMyPlayerController;
 class AEnemySpawner;
@@ -57,9 +58,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Settings")
 	bool WaveStarted = false;
 
+	UPROPERTY(EditAnywhere, Category = "UI")
+	UCountDownUI* CountDownUI;
+
 private:
 
 	float CurrentTimeBetweenSpawns;
+	float CurrentTimeBetweenWaves;
 	int32 SpawnedEnemies;
 	bool StartSpawning;
 

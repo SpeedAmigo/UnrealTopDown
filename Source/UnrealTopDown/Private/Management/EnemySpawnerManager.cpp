@@ -6,6 +6,7 @@
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "Objects/EnemySpawner.h"
+#include "UI/CountDownUI.h"
 #include "UI/PlayerHUD.h"
 
 // Sets default values
@@ -54,17 +55,25 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+
 	//start game
 	if (StartSpawning)
 	{
-		StartWave();
+		UE_LOG(LogTemp, Warning, TEXT("Wave timer: %f"), CurrentTimeBetweenWaves)
+		if (CountDownUI && CurrentTimeBetweenWaves < 6.f)
+		{
+			if (!CountDownUI->IsInViewport()) CountDownUI->AddToViewport();
+			CountDownUI->UpdateCountdownText(CurrentTimeBetweenWaves);
+		}
+		CurrentTimeBetweenWaves -= DeltaTime;
+		if (CurrentTimeBetweenWaves <= 0) StartWave();
 	}
 
-	if (!WaveStarted) return;
-
-	CurrentTimeBetweenSpawns -= DeltaTime;
-	if (CurrentTimeBetweenSpawns <= 0) Wave();
-
+	if (WaveStarted)
+	{
+		CurrentTimeBetweenSpawns -= DeltaTime;
+		if (CurrentTimeBetweenSpawns <= 0) Wave();
+	}
 }
 
 void AEnemySpawnerManager::Wave()
@@ -85,9 +94,9 @@ void AEnemySpawnerManager::Wave()
 		TimeBetweenSpawns -= 0.1f;
 		WaveStarted = false;
 
-		//UE_LOG(LogTemp, Warning, TEXT("Wave ended. Enemies to spawn: %d, Time between spawns: %f"), EnemiesToSpawn, TimeBetweenSpawns);
-
-		StartWave();
+		UE_LOG(LogTemp, Warning, TEXT("Wave Started"))
+		CurrentTimeBetweenWaves = TimeBetweenWaves;
+		StartSpawning = true;
 	}
 }
 
@@ -106,6 +115,8 @@ void AEnemySpawnerManager::StartWave()
 	SpawnedEnemies = 0;
 	
 	WaveStarted = true;
+
+	CountDownUI->RemoveFromParent();
 
 	if (OnWaveChanged.IsBound())
 	{
