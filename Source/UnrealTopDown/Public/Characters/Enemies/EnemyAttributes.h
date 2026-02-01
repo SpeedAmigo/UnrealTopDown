@@ -7,6 +7,8 @@
 #include "EnemyAttributes.generated.h"
 
 
+class ABaseEnemyCharacter;
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALTOPDOWN_API UEnemyAttributes : public UActorComponent
 {
@@ -36,18 +38,28 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
 	float Points;
 
+private:
+
+	ABaseEnemyCharacter* Owner;
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	int GetPoints() const { return Points; }
 	
-	float GetHealth() const;
-	float GetStamina() const;
+	float GetHealth() const { return CurrentHealth; }
+	float GetMaxHealth() const { return MaxHealth; }
+	float GetStamina() const { return CurrentStamina; }
+	float GetMaxStamina() const { return MaxStamina; }
+	float GetDamage() const { return Damage; }
+	float GetSpeed();
 
 	void SetHealth(float NewCurrentHealth);
 	void SetStamina(float NewCurrentStamina);
+	void SetDamage(float NewDamage);
+	void SetSpeed(float NewSpeed);
 
 	void SetMaxHealth(float NewMaxHealth);
 	void SetMaxStamina(float NewMaxStamina);
-	int GetPoints() { return Points; }
 };

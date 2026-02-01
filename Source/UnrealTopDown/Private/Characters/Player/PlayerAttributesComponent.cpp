@@ -42,16 +42,17 @@ void UPlayerAttributesComponent::TakeDamage(float DamageAmount)
 	if (DamageAmount <= 0.0f) return;
 
 	float OldHealth = Health;
+
 	Health = FMath::Clamp(Health - DamageAmount, 0.f, MaxHealth);
 
 	// Broadcast death if health reached zero
-	if (OldHealth > 0.0f && Health <= 0.0f)
+	if (Health <= 0.0f && OldHealth > 0.f)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s has died!"), *GetOwner()->GetName());
-		/*if (OnDeath.IsBound())
+		if (OnDeath.IsBound())
 		{
 			OnDeath.Broadcast();
-		}*/
+		}
 	}
 
 	if (OnHealthChanged.IsBound())

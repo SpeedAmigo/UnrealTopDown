@@ -3,6 +3,9 @@
 
 #include "Characters/Enemies/EnemyAttributes.h"
 
+#include "Characters/Enemies/BaseEnemyCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 // Sets default values for this component's properties
 UEnemyAttributes::UEnemyAttributes()
 {
@@ -19,6 +22,11 @@ UEnemyAttributes::UEnemyAttributes()
 void UEnemyAttributes::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Owner = Cast<ABaseEnemyCharacter>(GetOwner());
+
+	CurrentHealth = MaxHealth;
+	CurrentStamina = MaxStamina;
 }
 
 
@@ -28,9 +36,10 @@ void UEnemyAttributes::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-float UEnemyAttributes::GetHealth() const { return CurrentHealth;}
-
-float UEnemyAttributes::GetStamina() const { return CurrentStamina;}
+float UEnemyAttributes::GetSpeed()
+{
+	return Owner->GetCharacterMovement()->MaxWalkSpeed;
+}
 
 void UEnemyAttributes::SetHealth(float NewCurrentHealth)
 {
@@ -40,6 +49,16 @@ void UEnemyAttributes::SetHealth(float NewCurrentHealth)
 void UEnemyAttributes::SetStamina(float NewCurrentStamina)
 {
 	CurrentStamina = NewCurrentStamina;
+}
+
+void UEnemyAttributes::SetDamage(float NewDamage)
+{
+	Damage = NewDamage;
+}
+
+void UEnemyAttributes::SetSpeed(float NewSpeed)
+{
+	Owner->GetCharacterMovement()->MaxWalkSpeed = NewSpeed;
 }
 
 void UEnemyAttributes::SetMaxHealth(float NewMaxHealth)

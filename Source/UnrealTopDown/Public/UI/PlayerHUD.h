@@ -42,8 +42,15 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ScoreText;
 
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* WaveText;
+
+
 public:
 	void Tick(float DeltaSeconds);
+
+	UFUNCTION()
+	int GetFinalScore() const { return TotalScore; }
 
 	UFUNCTION()
 	void UpdateHealth(float Current, float Max);
@@ -53,6 +60,9 @@ public:
 
 	UFUNCTION()
 	void UpdateScore(int Points);
+
+	UFUNCTION()
+	void UpdateWave(int Wave);
 
 protected:
 

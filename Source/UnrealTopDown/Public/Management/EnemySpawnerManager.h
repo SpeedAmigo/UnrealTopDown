@@ -6,18 +6,40 @@
 #include "GameFramework/Actor.h"
 #include "EnemySpawnerManager.generated.h"
 
-
-class APlayerTwinStickCharacter;
+class UCountDownUI;
+class ABaseEnemyCharacter;
 class AMyPlayerController;
 class AEnemySpawner;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnWaveChangedSignature, int, Wave);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSpawnEnemiesSignature, int, Wave);
 
 UCLASS()
 class UNREALTOPDOWN_API AEnemySpawnerManager : public AActor
 {
 	GENERATED_BODY()
 
-protected:
+public:
+	UPROPERTY()
+	FOnWaveChangedSignature OnWaveChanged;
+	UPROPERTY()
+	FOnSpawnEnemiesSignature OnSpawnEnemies;
 
+	AMyPlayerController* MyPlayerController;
+
+protected:
+	//Enemies Wave Settings
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
+	TArray<TSubclassOf<ABaseEnemyCharacter>> EnemyArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Stats")
+	float DamageGrow = 10.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Stats")
+	float HealthGrow = 50.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Stats")
+	float SpeedGrow = 10.f;
+
+	//Wave Settings
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Settings")
 	int WaveNumber;
 
@@ -36,9 +58,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Settings")
 	bool WaveStarted = false;
 
+	UPROPERTY(EditAnywhere, Category = "UI")
+	UCountDownUI* CountDownUI;
+
 private:
 
 	float CurrentTimeBetweenSpawns;
+	float CurrentTimeBetweenWaves;
 	int32 SpawnedEnemies;
 	bool StartSpawning;
 
@@ -46,13 +72,13 @@ public:
 	// Sets default values for this actor's properties
 	AEnemySpawnerManager();
 
-	void AddTotalEnemiesKilled();
-
 	virtual void Tick(float DeltaTime) override;
+
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	void StartWave();
 	void Wave();

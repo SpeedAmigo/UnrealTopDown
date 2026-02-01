@@ -7,10 +7,10 @@
 #include "Variant_TwinStick/TwinStickPlayerController.h"
 #include "MyPlayerController.generated.h"
 
+class UGameOverUI;
 class AEnemySpawnerManager;
 class UPlayerHUD;
 class APlayerTwinStickCharacter;
-class UUserWidget;
 class UPlayerAttributesComponent;
 
 
@@ -31,7 +31,8 @@ private:
 	UPROPERTY(EditAnywhere, Category="UI")
 	UPlayerHUD* PlayerHUD;
 
-	int32 Score = 0;
+	UPROPERTY(EditAnywhere, Category="UI")
+	UGameOverUI* GameOverUI;
 
 public:
 	UPlayerHUD* GetPlayerHUD() { return PlayerHUD; }
@@ -43,7 +44,12 @@ protected:
 
 	virtual void SetupInputComponent() override;
 
+	UFUNCTION()
+	void Death();
+
 	virtual void BeginPlay() override;
 
 	virtual void OnPossess(APawn* InPawn) override;
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };

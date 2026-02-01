@@ -52,8 +52,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Combat")
 	float AttackCooldown = 2.f;
 
-	AEnemySpawner* Spawner;
-
 	UPROPERTY(EditDefaultsOnly, Category="Animation")
 	UAnimMontage* AttackMontage;
 
@@ -73,7 +71,7 @@ public:
 
 	void DealDamage(AActor* OtherActor);
 
-	void AssignSpawner(AEnemySpawner* NewSpawner) { Spawner = NewSpawner; }
+	UEnemyAttributes* GetAttributes() const { return Attributes; }
 
 protected:
 	// Called when the game starts or when spawned

@@ -14,9 +14,11 @@ class UNREALTOPDOWN_API AEnemySpawner : public AActor
 {
 	GENERATED_BODY()
 protected:
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
+
 	TArray<TSubclassOf<ABaseEnemyCharacter>> EnemyArray;
+	float HealthGrow;
+	float DamageGrow;
+	float SpeedGrow;
 
 public:	
 	// Sets default values for this actor's properties
@@ -25,7 +27,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void SpawnEnemy();
+	UFUNCTION()
+	void SpawnEnemy(int Wave);
+
+	void SetDefaults(TArray<TSubclassOf<ABaseEnemyCharacter>> EnemiesToSpawn, float HealthGrowth, float DamageGrowth, float SpeedGrowth);
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,5 +38,4 @@ protected:
 
 private:
 	int PickRandomEnemy();
-	
 };
