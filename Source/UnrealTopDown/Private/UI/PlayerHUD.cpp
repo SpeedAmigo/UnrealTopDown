@@ -17,16 +17,29 @@ void UPlayerHUD::Tick(float DeltaSeconds)
 
 void UPlayerHUD::UpdateHealth(float Current, float Max)
 {
-	OldHealth = CurrentHealth;
+	//OldHealth = CurrentHealth;
 	CurrentHealth = Current;
 	MaxHealth = Max;
 }
 
+
+void UPlayerHUD::UpdateHealthTick(float DeltaTime)
+{
+	OldHealth = FMath::FInterpTo(OldHealth, CurrentHealth, DeltaTime, InterSpeed);
+	HealthBar->SetPercent(OldHealth / MaxHealth);
+}
+
 void UPlayerHUD::UpdateEnergy(float Current, float Max)
 {
-	OldHealth = CurrentHealth;
+	//OldEnergy = CurrentEnergy;
 	CurrentEnergy = Current;
 	MaxEnergy = Max;
+}
+
+void UPlayerHUD::UpdateEnergyTick(float DeltaTime)
+{
+	OldEnergy = FMath::FInterpTo(OldEnergy, CurrentEnergy, DeltaTime, InterSpeed);
+	EnergyBar->SetPercent(OldEnergy / MaxEnergy);
 }
 
 void UPlayerHUD::UpdateScore(int Points)
@@ -54,16 +67,4 @@ void UPlayerHUD::UpdateTime(float Time)
 		int32 Seconds = FMath::FloorToInt(FMath::Fmod(Time, 60.f));
 		GameTimeText->SetText(FText::FromString(FString::Printf(TEXT("%d m %d s | Time"), Minutes, Seconds)));
 	}
-}
-
-void UPlayerHUD::UpdateHealthTick(float DeltaTime)
-{
-	OldHealth = FMath::FInterpTo(OldHealth, CurrentHealth, DeltaTime, InterSpeed);
-	HealthBar->SetPercent(OldHealth / MaxHealth);
-}
-
-void UPlayerHUD::UpdateEnergyTick(float DeltaTime)
-{
-	OldEnergy = FMath::FInterpTo(OldEnergy, CurrentEnergy, DeltaTime, InterSpeed);
-	EnergyBar->SetPercent(OldEnergy / MaxEnergy);
 }
