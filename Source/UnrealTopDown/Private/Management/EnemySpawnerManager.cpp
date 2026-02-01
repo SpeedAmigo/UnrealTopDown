@@ -59,7 +59,7 @@ void AEnemySpawnerManager::Tick(float DeltaTime)
 	//start game
 	if (StartSpawning)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Wave timer: %f"), CurrentTimeBetweenWaves)
+		UE_LOG(LogTemp, Warning, TEXT("Wave timer: %f"), CurrentTimeBetweenWaves);
 		if (CountDownUI && CurrentTimeBetweenWaves < 6.f)
 		{
 			if (!CountDownUI->IsInViewport()) CountDownUI->AddToViewport();
