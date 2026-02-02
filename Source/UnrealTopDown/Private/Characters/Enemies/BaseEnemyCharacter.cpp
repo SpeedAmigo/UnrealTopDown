@@ -9,7 +9,6 @@
 #include "Characters/Enemies/EnemyDrop.h"
 #include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Kismet/GameplayStatics.h"
-#include "Objects/EnemySpawner.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Characters/Player/MyPlayerController.h"
 #include "Engine/World.h"
@@ -113,7 +112,7 @@ void ABaseEnemyCharacter::GetDamage_Implementation(float amount)
 		{
 			OnEnemyDied.Broadcast(Attributes->GetPoints());
 		}
-		
+
 		Destroy();
 	}
 	else

@@ -11,12 +11,9 @@ class UPlayerHUD;
 class AMyPlayerController;
 class UNiagaraSystem;
 class APlayerTwinStickCharacter;
-class AEnemySpawner;
 class UEnemyDrop;
 class UEnemyAttributes;
 enum class PawnState : uint8;
-class UStaticMeshComponent;
-class UCapsuleComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnemyDiedSignature, int, Points);
 
