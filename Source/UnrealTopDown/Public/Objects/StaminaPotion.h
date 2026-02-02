@@ -14,6 +14,13 @@ class UNREALTOPDOWN_API AStaminaPotion : public AItem
 {
 	GENERATED_BODY()
 protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	bool IncreaseMaxStamina = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float MaxStaminaIncreasePoints;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float EnergyPoints;
 

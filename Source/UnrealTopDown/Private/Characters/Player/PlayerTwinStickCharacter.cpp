@@ -100,13 +100,12 @@ void APlayerTwinStickCharacter::Die()
 	UE_LOG(LogTemp, Warning, TEXT("You Died!"));
 }
 
-void APlayerTwinStickCharacter::NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other,
-                                          class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal,
-                                          FVector NormalImpulse, const FHitResult& Hit)
+
+void APlayerTwinStickCharacter::NotifyActorBeginOverlap(AActor* OtherActor)
 {
-	if (Other->Implements<UInteractable>())
+	if (OtherActor->Implements<UInteractable>())
 	{
-		IInteractable::Execute_PickUp(Other, this);
+		IInteractable::Execute_PickUp(OtherActor, this);
 		if (PickupSound)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, PickupSound, GetActorLocation());

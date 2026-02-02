@@ -23,6 +23,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ArrowSpawnGroup")
 	TArray<FArrowSpawnGroup> ArrowSpawnGroup;
 
+	UPROPERTY(EditDefaultsOnly, Category="Attributes|Energy")
+	float DashCooldown = 2.f;
+	UPROPERTY(EditDefaultsOnly, Category="Attributes|Energy")
+	float DashCost = 12.f;
+	UPROPERTY(EditDefaultsOnly, Category= "Attributes|Energy")
+	float ShootCost = 1.f;
+	UPROPERTY(EditDefaultsOnly, Category= "Attributes|Energy")
+	float AoECost = 50.f;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPlayerAttributesComponent* PlayerAttributesComponent;
@@ -49,28 +58,14 @@ protected:
 
 	virtual void Shoot(const FInputActionValue& Value) override;
 	
-
 	virtual void DoShoot(FArrowSpawnGroup ArrowData);
 	
 	void Die();
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category="Attributes|Energy")
-	float DashCooldown = 2.f;
-	UPROPERTY(EditDefaultsOnly, Category="Attributes|Energy")
-	float DashCost = 12.f;
-	UPROPERTY(EditDefaultsOnly, Category= "Attributes|Energy")
-	float ShootCost = 1.f;
-	UPROPERTY(EditDefaultsOnly, Category= "Attributes|Energy")
-	float AoECost = 50.f;
-
-
-	void NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
-	
-public:
+	void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 	virtual void GetDamage_Implementation(float amount) override;
 
 	UPlayerAttributesComponent* GetPlayerAttributesComponent() const { return PlayerAttributesComponent; }
-
 };

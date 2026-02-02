@@ -73,6 +73,18 @@ void UPlayerAttributesComponent::Heal(float HealAmount)
 	}
 }
 
+void UPlayerAttributesComponent::AddMaxHealth(float MaxHealthAmount)
+{
+	if (MaxHealthAmount <= 0.0f) return;
+	
+	MaxHealth += MaxHealthAmount;
+
+	if (OnHealthChanged.IsBound())
+	{
+		OnHealthChanged.Broadcast(Health, MaxHealth);
+	}
+}
+
 void UPlayerAttributesComponent::SubtractEnergy(float EnergyAmount)
 {
 	if (EnergyAmount <= 0.0f) return;
@@ -89,6 +101,18 @@ void UPlayerAttributesComponent::AddEnergy(float EnergyAmount)
 	if (EnergyAmount <= 0) return;
 
 	Energy = FMath::Clamp(Energy + EnergyAmount, 0.0f, MaxEnergy);
+	if (OnEnergyChanged.IsBound())
+	{
+		OnEnergyChanged.Broadcast(Energy, MaxEnergy);
+	}
+}
+
+void UPlayerAttributesComponent::AddMaxEnergy(float MaxEnergyAmount)
+{
+	if (MaxEnergyAmount <= 0.0f) return;
+
+	MaxEnergy += MaxEnergyAmount;
+
 	if (OnEnergyChanged.IsBound())
 	{
 		OnEnergyChanged.Broadcast(Energy, MaxEnergy);

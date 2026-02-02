@@ -7,11 +7,14 @@
 
 void AStaminaPotion::PickUp_Implementation(AActor* Actor)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Stamina Potion Picked Up!"));
-
 	if (UPlayerAttributesComponent* PlayerAttr = Actor->FindComponentByClass<UPlayerAttributesComponent>())
 	{
 		PlayerAttr->AddEnergy(EnergyPoints);
+
+		if (IncreaseMaxStamina)
+		{
+			PlayerAttr->AddMaxEnergy(MaxStaminaIncreasePoints);
+		}
 	}
 	else
 	{

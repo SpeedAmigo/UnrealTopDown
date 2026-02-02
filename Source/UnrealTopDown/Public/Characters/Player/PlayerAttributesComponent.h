@@ -44,8 +44,10 @@ public:
 
 	void TakeDamage(float DamageAmount);
 	void Heal(float HealAmount);
+	void AddMaxHealth(float MaxHealthAmount);
 	void SubtractEnergy(float EnergyAmount);
 	void AddEnergy(float EnergyAmount);
+	void AddMaxEnergy(float MaxEnergyAmount);
 
 	float GetEnergy() { return Energy; }
 	float GetHealth() { return Health; }

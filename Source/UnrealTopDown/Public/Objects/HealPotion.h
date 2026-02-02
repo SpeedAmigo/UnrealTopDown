@@ -15,6 +15,13 @@ class UNREALTOPDOWN_API AHealPotion : public AItem
 	GENERATED_BODY()
 
 protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	bool IncreaseMaxHealth = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float MaxHealthIncreasePoints;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float HealPoints;
 
