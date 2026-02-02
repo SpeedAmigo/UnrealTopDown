@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "PlayerHUD.generated.h"
 
+class UCanvasPanelSlot;
 class UTextBlock;
 class UProgressBar;
 
@@ -23,18 +24,26 @@ private:
 
 	float OldHealth;
 	float CurrentHealth;
+	float OldMaxHealth;
 	float MaxHealth;
 
 	float OldEnergy;
 	float CurrentEnergy;
+	float OldMaxEnergy;
 	float MaxEnergy;
 
 public:
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthBar;
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* HealthText;
+	UCanvasPanelSlot* HealthBarSlot;
 
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* EnergyBar;
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* EnergyText;
+	UCanvasPanelSlot* EnergyBarSlot;
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* GameTimeText;
@@ -48,6 +57,9 @@ public:
 
 public:
 	void Tick(float DeltaSeconds);
+
+	UFUNCTION()
+	void CastCanvasSlots();
 
 	UFUNCTION()
 	int GetFinalScore() const { return TotalScore; }
