@@ -26,6 +26,15 @@ void APlayerTwinStickCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	DashTimer = FMath::Max(0.f, DashTimer - DeltaSeconds);
+	if (ArrowType != ArrowType::SingleShot)
+	{
+		SpecialArrowTimer = FMath::Max(0.f, SpecialArrowTimer - DeltaSeconds);
+		if (SpecialArrowTimer <= 0.f)
+		{
+			ArrowType = ArrowType::SingleShot;
+		}
+	}
+
 }
 
 void APlayerTwinStickCharacter::Dash(const FInputActionValue& Value)
@@ -100,6 +109,11 @@ void APlayerTwinStickCharacter::DoShoot(FArrowSpawnGroup ArrowData)
 void APlayerTwinStickCharacter::GetDamage_Implementation(float amount)
 {
 	PlayerAttributesComponent->TakeDamage(amount);
+}
+
+void APlayerTwinStickCharacter::ResetArrowTimer()
+{
+	SpecialArrowTimer = SpecialArrowTotalTime;
 }
 
 

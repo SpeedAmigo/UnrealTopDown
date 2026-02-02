@@ -8,7 +8,13 @@ void AArrowChangeItem::PickUp_Implementation(AActor* Actor)
 {
 	if (APlayerTwinStickCharacter* Player = Cast<APlayerTwinStickCharacter>(Actor))
 	{
-		Player->ArrowType = Type;
+		if (Player->ArrowType >= Type)
+			Player->ResetArrowTimer();
+		else
+		{
+			Player->ArrowType = Type;
+			Player->ResetArrowTimer();
+		}
 	}
 	else
 	{

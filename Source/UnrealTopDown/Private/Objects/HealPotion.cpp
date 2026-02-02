@@ -9,11 +9,12 @@ void AHealPotion::PickUp_Implementation(AActor* Actor)
 {
 	if (UPlayerAttributesComponent* PlayerAttr = Actor->FindComponentByClass<UPlayerAttributesComponent>())
 	{
-		PlayerAttr->Heal(HealPoints);
 		if (IncreaseMaxHealth)
 		{
 			PlayerAttr->AddMaxHealth(MaxHealthIncreasePoints);
 		}
+
+		PlayerAttr->Heal(HealPoints);
 	}
 	else
 	{

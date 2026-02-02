@@ -21,7 +21,7 @@ class UNREALTOPDOWN_API APlayerTwinStickCharacter : public ATwinStickCharacter, 
 public:
 	UPROPERTY(EditAnywhere, Category = "Arrow")
 	ArrowType ArrowType;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ArrowSpawnGroup")
 	TArray<FArrowSpawnGroup> ArrowSpawnGroup;
 
@@ -58,6 +58,10 @@ private:
 	
 	float DashTimer;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Arrow")
+	float SpecialArrowTotalTime = 10.f;
+	float SpecialArrowTimer;
+
 protected:
 	APlayerTwinStickCharacter();
 	
@@ -77,4 +81,6 @@ public:
 	virtual void GetDamage_Implementation(float amount) override;
 
 	UPlayerAttributesComponent* GetPlayerAttributesComponent() const { return PlayerAttributesComponent; }
+
+	void ResetArrowTimer();
 };

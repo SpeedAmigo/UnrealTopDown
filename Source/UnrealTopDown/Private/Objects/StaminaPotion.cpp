@@ -9,12 +9,12 @@ void AStaminaPotion::PickUp_Implementation(AActor* Actor)
 {
 	if (UPlayerAttributesComponent* PlayerAttr = Actor->FindComponentByClass<UPlayerAttributesComponent>())
 	{
-		PlayerAttr->AddEnergy(EnergyPoints);
-
 		if (IncreaseMaxStamina)
 		{
 			PlayerAttr->AddMaxEnergy(MaxStaminaIncreasePoints);
 		}
+
+		PlayerAttr->AddEnergy(EnergyPoints);
 	}
 	else
 	{

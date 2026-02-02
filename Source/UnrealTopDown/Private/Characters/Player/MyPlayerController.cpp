@@ -60,6 +60,10 @@ void AMyPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	if (PlayerHUD)
+	{
+		PlayerHUD->CastCanvasSlots();
+	}
 }
 
 void AMyPlayerController::SetupInputComponent()

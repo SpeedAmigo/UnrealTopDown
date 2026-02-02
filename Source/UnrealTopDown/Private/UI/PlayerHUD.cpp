@@ -3,6 +3,7 @@
 
 #include "UI/PlayerHUD.h"
 
+#include "Components/CanvasPanelSlot.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 
@@ -15,16 +16,26 @@ void UPlayerHUD::Tick(float DeltaSeconds)
 	UpdateEnergyTick(DeltaSeconds);
 }
 
+void UPlayerHUD::CastCanvasSlots()
+{
+
+	HealthBarSlot = Cast<UCanvasPanelSlot>(HealthBar->Slot);
+	EnergyBarSlot = Cast<UCanvasPanelSlot>(EnergyBar->Slot);
+}
+
 void UPlayerHUD::UpdateHealth(float Current, float Max)
 {
 	//OldHealth = CurrentHealth;
-	CurrentHealth = Current;
 	MaxHealth = Max;
+	CurrentHealth = Current;
+	HealthText->SetText(FText::FromString(FString::Printf(TEXT("%d / %d"), FMath::FloorToInt(CurrentHealth), FMath::FloorToInt(MaxHealth))));
 }
-
 
 void UPlayerHUD::UpdateHealthTick(float DeltaTime)
 {
+	OldMaxHealth = FMath::FInterpTo(OldMaxHealth, MaxHealth, DeltaTime, InterSpeed);
+	HealthBarSlot->SetSize(FVector2D(FMath::Clamp(OldMaxHealth * 4.f, 0.f, 1200.f), 40.f));
+
 	OldHealth = FMath::FInterpTo(OldHealth, CurrentHealth, DeltaTime, InterSpeed);
 	HealthBar->SetPercent(OldHealth / MaxHealth);
 }
@@ -32,12 +43,16 @@ void UPlayerHUD::UpdateHealthTick(float DeltaTime)
 void UPlayerHUD::UpdateEnergy(float Current, float Max)
 {
 	//OldEnergy = CurrentEnergy;
-	CurrentEnergy = Current;
 	MaxEnergy = Max;
+	CurrentEnergy = Current;
+	EnergyText->SetText(FText::FromString(FString::Printf(TEXT("%d / %d"), FMath::FloorToInt(CurrentEnergy), FMath::FloorToInt(MaxEnergy))));
 }
 
 void UPlayerHUD::UpdateEnergyTick(float DeltaTime)
 {
+	OldMaxEnergy = FMath::FInterpTo(OldMaxEnergy, MaxEnergy, DeltaTime, InterSpeed);
+	EnergyBarSlot->SetSize(FVector2D(FMath::Clamp(OldMaxEnergy * 4.f, 0.f, 1200.f), 40.f));
+
 	OldEnergy = FMath::FInterpTo(OldEnergy, CurrentEnergy, DeltaTime, InterSpeed);
 	EnergyBar->SetPercent(OldEnergy / MaxEnergy);
 }
@@ -52,7 +67,6 @@ void UPlayerHUD::UpdateWave(int Wave)
 {
 	WaveText->SetText(FText::FromString(FString::Printf(TEXT("%d | Wave"), Wave)));
 }
-
 
 void UPlayerHUD::UpdateTime(float Time)
 {
