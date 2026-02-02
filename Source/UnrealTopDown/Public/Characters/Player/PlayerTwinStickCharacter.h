@@ -49,6 +49,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "SFX")
 	USoundBase* PickupSound;
+
+	UPROPERTY(EditAnywhere, Category = "SFX")
+	USoundBase* DashSound;
 	
 	float DashTimer;
 
