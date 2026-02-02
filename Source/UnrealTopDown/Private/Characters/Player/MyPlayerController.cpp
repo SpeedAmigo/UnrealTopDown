@@ -10,6 +10,7 @@
 #include "UI/PlayerHUD.h"
 
 
+
 AMyPlayerController::AMyPlayerController()
 {
 	bEnableTouchEvents = false;
@@ -68,14 +69,21 @@ void AMyPlayerController::SetupInputComponent()
 
 void AMyPlayerController::Death()
 {
+	if (PlayerCharacter)
+	{
+		PlayerCharacter->DisableInput(this);
+		PlayerCharacter->PlayAnimMontage(DeathMontage);
+	}
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
+}
+
+void AMyPlayerController::PostDeathAnim()
+{
 	if (GameOverUI)
 	{
 		GameOverUI->AddToViewport();
 		GameOverUI->SetFinalScore(PlayerHUD->GetFinalScore());
 	}
-	if (PlayerCharacter)
-	{
-		PlayerCharacter->DisableInput(this);
-	}
-	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
+
+

@@ -19,7 +19,7 @@ void APlayerTwinStickCharacter::BeginPlay()
 	Super::BeginPlay();
 	
 	ArrowType = ArrowType::SingleShot;
-	UE_LOG(LogTemp, Warning, TEXT("Arrow Type: %i"), ArrowType);
+	//UE_LOG(LogTemp, Warning, TEXT("Arrow Type: %i"), ArrowType);
 }
 
 void APlayerTwinStickCharacter::Tick(float DeltaSeconds)
@@ -100,11 +100,6 @@ void APlayerTwinStickCharacter::DoShoot(FArrowSpawnGroup ArrowData)
 void APlayerTwinStickCharacter::GetDamage_Implementation(float amount)
 {
 	PlayerAttributesComponent->TakeDamage(amount);
-}
-
-void APlayerTwinStickCharacter::Die()
-{
-	UE_LOG(LogTemp, Warning, TEXT("You Died!"));
 }
 
 

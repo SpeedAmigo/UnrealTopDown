@@ -20,7 +20,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	USceneComponent* Root;
 	
-	UPROPERTY(visibleAnywhere, Category = "Components")
+	UPROPERTY(visibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UGeometryCollectionComponent* GeometryCollection;
 
 	UPROPERTY(EditAnywhere, Category = "SFX")
@@ -39,7 +39,7 @@ protected:
 	virtual void HandleFragmentation();
 
 private:
-
+	
 	UFUNCTION()
 	void OnFragmentation(const FChaosBreakEvent& BreakEvent);
 	

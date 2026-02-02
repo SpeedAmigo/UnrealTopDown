@@ -17,6 +17,7 @@ ADestructable::ADestructable()
 	GeometryCollection->SetupAttachment(RootComponent);
 
 	GeometryCollection->SetNotifyBreaks(true);
+	
 }
 
 // Called when the game starts or when spawned

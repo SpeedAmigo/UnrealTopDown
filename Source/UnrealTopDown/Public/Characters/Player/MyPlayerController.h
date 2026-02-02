@@ -19,13 +19,13 @@ class UNREALTOPDOWN_API AMyPlayerController : public ATwinStickPlayerController
 {
 	GENERATED_BODY()
 
-public:
-
 protected:
 
 	UPlayerAttributesComponent* PlayerAttributesComponent;
 	APlayerTwinStickCharacter* PlayerCharacter;
-	AEnemySpawnerManager* SpawnerManager;
+
+	UPROPERTY(EditDefaultsOnly, Category="Animation")
+	UAnimMontage* DeathMontage;
 
 private:
 	UPROPERTY(EditAnywhere, Category="UI")
@@ -36,6 +36,9 @@ private:
 
 public:
 	UPlayerHUD* GetPlayerHUD() { return PlayerHUD; }
+
+	UFUNCTION(BlueprintCallable, Category="Death")
+	void PostDeathAnim();
 
 protected:
 	AMyPlayerController();
