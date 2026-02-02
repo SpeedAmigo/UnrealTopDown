@@ -57,7 +57,7 @@ void ABaseEnemyCharacter::Tick(float DeltaTime)
 	AttackTimer -= DeltaTime;
 
 	if (AttackTimer > 0.f || !PlayerCharacter) return;
-	if ((PlayerCharacter->GetActorLocation() - GetActorLocation()).Size() < 100.0f)
+	if ((PlayerCharacter->GetActorLocation() - GetActorLocation()).Size() < 100.0f && PlayerCharacter->bCanTakeDamage)
 	{
 		if (AttackMontage)
 		{

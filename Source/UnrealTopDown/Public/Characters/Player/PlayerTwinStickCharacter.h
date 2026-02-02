@@ -37,6 +37,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Events")
 	FDashEvent OnDash;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Dash")
+	bool bCanTakeDamage = true;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPlayerAttributesComponent* PlayerAttributesComponent;
@@ -67,8 +70,6 @@ protected:
 	virtual void Shoot(const FInputActionValue& Value) override;
 	
 	virtual void DoShoot(FArrowSpawnGroup ArrowData);
-	
-	void Die();
 
 public:
 	void NotifyActorBeginOverlap(AActor* OtherActor) override;
