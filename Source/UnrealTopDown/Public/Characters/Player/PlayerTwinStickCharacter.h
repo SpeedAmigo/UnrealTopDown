@@ -11,6 +11,8 @@ enum class ArrowType : uint8;
 enum class PawnState : uint8;
 class UPlayerAttributesComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDashEvent);
+
 UCLASS()
 class UNREALTOPDOWN_API APlayerTwinStickCharacter : public ATwinStickCharacter, public ICombat
 {
@@ -32,6 +34,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category= "Attributes|Energy")
 	float AoECost = 50.f;
 
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FDashEvent OnDash;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPlayerAttributesComponent* PlayerAttributesComponent;
@@ -44,6 +49,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "SFX")
 	USoundBase* PickupSound;
+
+	UPROPERTY(EditAnywhere, Category = "SFX")
+	USoundBase* DashSound;
 	
 	float DashTimer;
 

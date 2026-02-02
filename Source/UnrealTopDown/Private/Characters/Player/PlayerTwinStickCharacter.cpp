@@ -35,6 +35,13 @@ void APlayerTwinStickCharacter::Dash(const FInputActionValue& Value)
 		Super::Dash(Value);
 		DashTimer = DashCooldown;
 		PlayerAttributesComponent->SubtractEnergy(DashCost);
+
+		if (DashSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), DashSound, GetActorLocation());
+		}
+
+		OnDash.Broadcast();
 	}
 }
 
