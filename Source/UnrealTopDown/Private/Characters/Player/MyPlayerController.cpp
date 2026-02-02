@@ -74,6 +74,8 @@ void AMyPlayerController::Death()
 		PlayerCharacter->DisableInput(this);
 		PlayerCharacter->PlayAnimMontage(DeathMontage);
 	}
+	UGameplayStatics::PlaySound2D(GetWorld(), DeathCue);
+	
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 

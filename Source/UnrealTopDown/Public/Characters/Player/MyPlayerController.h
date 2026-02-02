@@ -34,6 +34,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="UI")
 	UGameOverUI* GameOverUI;
 
+	UPROPERTY(EditDefaultsOnly, Category = "SFX")
+	USoundBase* DeathCue;
+
 public:
 	UPlayerHUD* GetPlayerHUD() { return PlayerHUD; }
 
