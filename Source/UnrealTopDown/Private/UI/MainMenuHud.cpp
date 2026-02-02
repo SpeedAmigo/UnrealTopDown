@@ -17,7 +17,7 @@ void UMainMenuHud::NativeOnInitialized()
 
 void UMainMenuHud::OnNewGameButtonPressed()
 {
-	UGameplayStatics::OpenLevel(this, FName("Map"));
+	//UGameplayStatics::OpenLevel(this, FName("Map"));
 }
 
 void UMainMenuHud::OnExitGamePressed()
