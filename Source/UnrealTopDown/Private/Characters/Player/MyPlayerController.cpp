@@ -3,6 +3,7 @@
 
 #include "Characters/Player/MyPlayerController.h"
 
+#include "EnhancedInputSubsystems.h"
 #include "Characters/Player/PlayerAttributesComponent.h"
 #include "Characters/Player/PlayerTwinStickCharacter.h"
 #include "Kismet/GameplayStatics.h"
@@ -66,10 +67,6 @@ void AMyPlayerController::BeginPlay()
 	}
 }
 
-void AMyPlayerController::SetupInputComponent()
-{
-	Super::SetupInputComponent();
-}
 
 void AMyPlayerController::Death()
 {

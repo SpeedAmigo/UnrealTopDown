@@ -27,6 +27,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Animation")
 	UAnimMontage* DeathMontage;
 
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputMappingContext* ExitGame;
+
 private:
 	UPROPERTY(EditAnywhere, Category="UI")
 	UPlayerHUD* PlayerHUD;
@@ -47,8 +50,6 @@ protected:
 	AMyPlayerController();
 
 	virtual void Tick(float DeltaSeconds) override;
-
-	virtual void SetupInputComponent() override;
 
 	UFUNCTION()
 	void Death();

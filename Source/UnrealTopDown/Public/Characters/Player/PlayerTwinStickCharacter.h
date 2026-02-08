@@ -41,6 +41,9 @@ public:
 	bool bCanTakeDamage = true;
 
 private:
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputAction* ExitButton;
+
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPlayerAttributesComponent* PlayerAttributesComponent;
 	
@@ -64,6 +67,8 @@ private:
 
 protected:
 	APlayerTwinStickCharacter();
+
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	
 	virtual void BeginPlay() override;
 
@@ -74,6 +79,8 @@ protected:
 	virtual void Shoot(const FInputActionValue& Value) override;
 	
 	virtual void DoShoot(FArrowSpawnGroup ArrowData);
+
+	void ExitGame();
 
 public:
 	void NotifyActorBeginOverlap(AActor* OtherActor) override;

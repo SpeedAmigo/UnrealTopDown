@@ -1,5 +1,6 @@
 #include "Characters/Player/PlayerTwinStickCharacter.h"
 
+#include "EnhancedInputComponent.h"
 #include "TwinStickProjectile.h"
 #include "Characters/Player/PlayerAttributesComponent.h"
 #include "Engine/World.h"
@@ -12,6 +13,15 @@ APlayerTwinStickCharacter::APlayerTwinStickCharacter()
 	bUsingMouse = true;
 
 	PlayerAttributesComponent = CreateDefaultSubobject<UPlayerAttributesComponent>(TEXT("PlayerAttributesComponent"));
+}
+
+void APlayerTwinStickCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInputComponent->BindAction(ExitButton, ETriggerEvent::Triggered, this, &APlayerTwinStickCharacter::ExitGame);
+	}
 }
 
 void APlayerTwinStickCharacter::BeginPlay()
@@ -104,6 +114,11 @@ void APlayerTwinStickCharacter::DoShoot(FArrowSpawnGroup ArrowData)
 			UGameplayStatics::PlaySoundAtLocation(this, ArrowRelease, ProjectileLocation);
 		}
 	}
+}
+
+void APlayerTwinStickCharacter::ExitGame()
+{
+	UKismetSystemLibrary::QuitGame(GetWorld(), PlayerController, EQuitPreference::Quit, false);
 }
 
 void APlayerTwinStickCharacter::GetDamage_Implementation(float amount)
