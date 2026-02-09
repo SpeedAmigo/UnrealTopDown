@@ -14,7 +14,6 @@ UEnemyAttributes::UEnemyAttributes()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	CurrentHealth = MaxHealth;
-	CurrentStamina = MaxStamina;
 }
 
 
@@ -26,14 +25,6 @@ void UEnemyAttributes::BeginPlay()
 	Owner = Cast<ABaseEnemyCharacter>(GetOwner());
 
 	CurrentHealth = MaxHealth;
-	CurrentStamina = MaxStamina;
-}
-
-
-// Called every frame
-void UEnemyAttributes::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
 float UEnemyAttributes::GetSpeed()
@@ -44,11 +35,6 @@ float UEnemyAttributes::GetSpeed()
 void UEnemyAttributes::SetHealth(float NewCurrentHealth)
 {
 	CurrentHealth = NewCurrentHealth;
-}
-
-void UEnemyAttributes::SetStamina(float NewCurrentStamina)
-{
-	CurrentStamina = NewCurrentStamina;
 }
 
 void UEnemyAttributes::SetDamage(float NewDamage)
@@ -64,10 +50,5 @@ void UEnemyAttributes::SetSpeed(float NewSpeed)
 void UEnemyAttributes::SetMaxHealth(float NewMaxHealth)
 {
 	MaxHealth = NewMaxHealth;
-}
-
-void UEnemyAttributes::SetMaxStamina(float NewMaxStamina)
-{
-	MaxStamina = NewMaxStamina;
 }
 
